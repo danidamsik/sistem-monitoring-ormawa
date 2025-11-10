@@ -1,5 +1,5 @@
 @extends('app')
 
 @section('content')
-    <h1>INI HALAMAN PENYETORAN LPJ</h1>
+    <h1>INI HALAMAN MASTER DATA</h1>
 @endsection
