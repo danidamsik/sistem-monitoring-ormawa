@@ -2,6 +2,7 @@
 namespace App\Livewire\PengajuanProposal;
 
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\DB;
 
 class TopCard extends Component
@@ -11,6 +12,7 @@ class TopCard extends Component
     public $disetujui;
     public $totalDanaDisetujui;
 
+    #[On('success')]
     public function mount()
     {
         $this->loadStatistics();
@@ -39,6 +41,7 @@ class TopCard extends Component
         $this->totalDanaDisetujui = $this->formatRupiah($totalDana);
     }
 
+    
     private function formatRupiah($angka)
     {
         if ($angka >= 1000000000) {

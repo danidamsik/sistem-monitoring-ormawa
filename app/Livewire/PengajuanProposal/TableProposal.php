@@ -14,10 +14,11 @@ class TableProposal extends Component
     public $filterLembaga = '';
     public $filterStatus = '';
     public $perPage = 10;
+    public $proposal_id;
+    public $modal;
 
     protected $paginationTheme = 'tailwind';
 
-    // Reset pagination saat filter berubah
     public function updatingSearch()
     {
         $this->resetPage();
@@ -33,6 +34,13 @@ class TableProposal extends Component
         $this->resetPage();
     }
 
+    public function delete()
+    {
+        DB::table('proposals')->where('id', $this->proposal_id)->delete();
+        $this->modal = false;
+        $this->dispatch('success', message: "Proposal berhasil dihapus!");
+    }
+
     public function getProposals()
     {
         $query = DB::table('proposals')
@@ -44,31 +52,28 @@ class TableProposal extends Component
                 'users.name as nama_user'
             );
 
-        // Filter pencarian nama kegiatan
         if (!empty($this->search)) {
             $query->where('proposals.nama_kegiatan', 'like', '%' . $this->search . '%');
         }
 
-        // Filter lembaga
         if (!empty($this->filterLembaga)) {
             $query->where('proposals.lembaga_id', $this->filterLembaga);
         }
 
-        // Filter status
         if (!empty($this->filterStatus)) {
             if ($this->filterStatus === 'menunggu') {
                 $query->whereNull('proposals.dana_disetujui');
             } elseif ($this->filterStatus === 'disetujui') {
                 $query->whereNotNull('proposals.dana_disetujui')
-                      ->where('proposals.dana_disetujui', '>', 0);
+                    ->where('proposals.dana_disetujui', '>', 0);
             } elseif ($this->filterStatus === 'ditolak') {
                 $query->whereNotNull('proposals.dana_disetujui')
-                      ->where('proposals.dana_disetujui', '=', 0);
+                    ->where('proposals.dana_disetujui', '=', 0);
             }
         }
 
         return $query->orderBy('proposals.tanggal_diterima', 'desc')
-                     ->paginate($this->perPage);
+            ->paginate($this->perPage);
     }
 
     public function getLembagas()
@@ -96,16 +101,6 @@ class TableProposal extends Component
                 'label' => 'Ditolak',
                 'class' => 'bg-red-100 text-red-800'
             ];
-        }
-    }
-
-    public function delete($id)
-    {
-        try {
-            DB::table('proposals')->where('id', $id)->delete();
-            session()->flash('message', 'Proposal berhasil dihapus.');
-        } catch (\Exception $e) {
-            session()->flash('error', 'Gagal menghapus proposal: ' . $e->getMessage());
         }
     }
 

@@ -7,8 +7,5 @@
         @livewire('pengajuan-proposal.top-card')
 
         @livewire('pengajuan-proposal.table-proposal')
-
-
-        @livewire('pengajuan-proposal.form-pengajuan')
     </div>
 @endsection

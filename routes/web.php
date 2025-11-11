@@ -11,6 +11,22 @@ Route::get('/pengajuan-proposal', function () {
     return view('page-content.proposal');
 });
 
+Route::get('/pengajuan-proposal/edit/{id}', function($id) {
+    return view('page-content.edit.edit-proposal', compact('id'));
+});
+
+Route::get('/pengajuan-proposal/tambah', function() {
+    return view('page-content.tambah.tambah-proposal');
+});
+
+Route::get('/pelaksanaan-kegiatan/tambah', function () {
+    return view('page-content.tambah.tambah-kegiatan');
+});
+
+Route::get('/pelaksanaan-kegiatan/edit/{id}', function ($id) {
+    return view('page-content.edit.edit-kegiatan', compact('id'));
+});
+
 Route::get('/pelaksanaan-kegiatan', function () {
     return view('page-content.kegiatan');
 });

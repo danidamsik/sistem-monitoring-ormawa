@@ -1,5 +1,6 @@
 @extends('app')
 
 @section('content')
-    <h1>INI PELAKSANAAN KEGIATAN</h1>
+    @livewire('pelaksanaan-kegiatan.card-summary')
+    @livewire('pelaksanaan-kegiatan.table-kegiatan')
 @endsection
