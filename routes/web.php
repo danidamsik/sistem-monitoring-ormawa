@@ -43,3 +43,7 @@ Route::get('/master-data', function () {
     return view('page-content.master-data');
 });
 
+Route::get('/penyetoran-lpj/tambah', function () {
+    return view('page-content.tambah.tambah-setor-lpj');
+});
+

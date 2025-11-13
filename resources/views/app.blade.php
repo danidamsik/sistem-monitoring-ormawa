@@ -43,6 +43,7 @@
     <title>SIMPEL - Sistem Monitoring Pengeluaran Dana dan Penyetoran LPJ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -129,41 +130,44 @@
             </div>
 
             <!-- Navigation Menu -->
-            <nav class="px-4 py-6 space-y-2 overflow-y-auto h-[calc(100vh-120px)]">
-                <a href="/dashboard" wire:navigate @click.prevent="setActive('dashboard')"
+            <nav x-data="{ openMaster: false }" class="px-4 py-6 space-y-2 overflow-y-auto h-[calc(100vh-120px)]">
+                <!-- Dashboard -->
+                <a href="/dashboard" wire:navigate @click="setActive('dashboard')"
                     :class="isActive('dashboard') ? 'nav-active' : 'nav-inactive'"
                     class="flex items-center py-3 px-4 rounded-lg transition duration-200 group">
                     <i class="fas fa-home w-5 mr-3"></i>
                     <span>Dashboard</span>
                 </a>
 
-                <a href="/pengajuan-proposal" wire:navigate @click.prevent="setActive('proposal')"
+                <!-- Pengajuan Proposal -->
+                <a href="/pengajuan-proposal" wire:navigate @click="setActive('proposal')"
                     :class="isActive('proposal') ? 'nav-active' : 'nav-inactive'"
                     class="flex items-center py-3 px-4 rounded-lg transition duration-200 group">
                     <i class="fas fa-file-alt w-5 mr-3"></i>
                     <span>Pengajuan Proposal</span>
                 </a>
 
-                <a href="/pelaksanaan-kegiatan" wire:navigate @click.prevent="setActive('pelaksanaan')"
+                <!-- Pelaksanaan Kegiatan -->
+                <a href="/pelaksanaan-kegiatan" wire:navigate @click="setActive('pelaksanaan')"
                     :class="isActive('pelaksanaan') ? 'nav-active' : 'nav-inactive'"
                     class="flex items-center py-3 px-4 rounded-lg transition duration-200 group relative">
                     <i class="fas fa-calendar-check w-5 mr-3"></i>
                     <span>Pelaksanaan Kegiatan</span>
-                    <!-- Badge untuk kegiatan mendekati tenggat -->
                     <span
                         class="ml-auto bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full badge">3</span>
                 </a>
 
-                <a href="/penyetoran-lpj" wire:navigate @click.prevent="setActive('lpj')"
+                <!-- Penyetoran LPJ -->
+                <a href="/penyetoran-lpj" wire:navigate @click="setActive('lpj')"
                     :class="isActive('lpj') ? 'nav-active' : 'nav-inactive'"
                     class="flex items-center py-3 px-4 rounded-lg transition duration-200 group relative">
                     <i class="fas fa-check-circle w-5 mr-3"></i>
                     <span>Penyetoran LPJ</span>
-                    <!-- Badge untuk LPJ terlambat -->
                     <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full badge">5</span>
                 </a>
 
-                <a href="/laporan-rekap" wire:navigate @click.prevent="setActive('laporan')"
+                <!-- Laporan & Rekap -->
+                <a href="/laporan-rekap" wire:navigate @click="setActive('laporan')"
                     :class="isActive('laporan') ? 'nav-active' : 'nav-inactive'"
                     class="flex items-center py-3 px-4 rounded-lg transition duration-200 group">
                     <i class="fas fa-chart-bar w-5 mr-3"></i>
@@ -173,14 +177,37 @@
                 <!-- Divider -->
                 <div class="border-t border-purple-700 my-4"></div>
 
-                <a href="/master-data" wire:navigate @click.prevent="setActive('master')"
-                    :class="isActive('master') ? 'nav-active' : 'nav-inactive'"
-                    class="flex items-center py-3 px-4 rounded-lg transition duration-200 group">
-                    <i class="fas fa-database w-5 mr-3"></i>
-                    <span>Master Data</span>
-                </a>
-            </nav>
+                <!-- ===== Master Data Dropdown ===== -->
+                <div>
+                    <button @click="openMaster = !openMaster; setActive('master')"
+                        class="w-full flex items-center justify-between py-3 px-4 rounded-lg transition duration-200 hover:bg-purple-800/20"
+                        :class="isActive('master') ? 'nav-active' : 'nav-inactive'">
+                        <div class="flex items-center">
+                            <i class="fas fa-database w-5 mr-3"></i>
+                            <span>Master Data</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down transform transition-transform duration-200"
+                            :class="openMaster ? 'rotate-180' : 'rotate-0'"></i>
+                    </button>
 
+                    <!-- Submenu -->
+                    <div x-show="openMaster" x-transition.opacity x-cloak class="ml-10 mt-1 space-y-1 overflow-hidden">
+                        <a href="/master-data/lembaga" wire:navigate @click="setActive('lembaga')"
+                            :class="isActive('lembaga') ? 'nav-active' : 'nav-inactive'"
+                            class="flex items-center py-2 px-3 rounded-lg text-sm transition duration-200">
+                            <i class="fa-solid fa-building w-4 mr-2 text-gray-400"></i>
+                            <span>Lembaga</span>
+                        </a>
+
+                        <a href="/master-data/user" wire:navigate @click="setActive('user')"
+                            :class="isActive('user') ? 'nav-active' : 'nav-inactive'"
+                            class="flex items-center py-2 px-3 rounded-lg text-sm transition duration-200">
+                            <i class="fa-solid fa-users w-4 mr-2 text-gray-400"></i>
+                            <span>User</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
             <!-- User Info (Bottom Sidebar) -->
             <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-purple-700 bg-purple-900">
                 <div class="flex items-center space-x-3">

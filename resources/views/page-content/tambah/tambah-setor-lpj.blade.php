@@ -1,5 +1,5 @@
 @extends('app')
 
 @section('content')
-    @livewire('laporan-rekap.table-rekaptulasi')
+   @livewire('penyetoran-lpj.form-lpj')
 @endsection
