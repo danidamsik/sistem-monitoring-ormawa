@@ -10,9 +10,6 @@ class FormKegiatan extends Component
     public $proposal_id, $tanggal_mulai, $tanggal_selesai, $tenggat_lpj, $lokasi, $penanggung_jawab, $status = 'belum_dimulai', $keterangan;
     public $pelaksanaan_id, $func;
 
-    /**
-     * Rules dijadikan fungsi agar bisa dinamis
-     */
     protected function rules()
     {
         return [
@@ -27,9 +24,6 @@ class FormKegiatan extends Component
         ];
     }
 
-    /**
-     * Messages dijadikan fungsi agar bisa dinamis juga
-     */
     protected function messages()
     {
         return [
@@ -47,12 +41,9 @@ class FormKegiatan extends Component
         ];
     }
 
-    /**
-     * Ambil proposal yang belum punya pelaksanaan
-     */
     public function getProposal()
     {
-        return DB::table('proposals')
+        $query = DB::table('proposals')
             ->select(
                 'proposals.id',
                 'proposals.nama_kegiatan',
@@ -60,14 +51,21 @@ class FormKegiatan extends Component
                 'proposals.dana_disetujui',
             )
             ->join('lembagas', 'proposals.lembaga_id', '=', 'lembagas.id')
-            ->leftJoin('pelaksanaans', 'proposals.id', '=', 'pelaksanaans.proposal_id')
-            ->whereNull('pelaksanaans.id')
-            ->get();
+            ->leftJoin('pelaksanaans', 'proposals.id', '=', 'pelaksanaans.proposal_id');
+
+        if ($this->pelaksanaan_id) {
+            $query->where('proposals.id', function ($sub) {
+                $sub->select('proposal_id')
+                    ->from('pelaksanaans')
+                    ->where('id', $this->pelaksanaan_id);
+            });
+        } else {
+            $query->whereNull('pelaksanaans.id');
+        }
+
+        return $query->get();
     }
 
-    /**
-     * Fungsi untuk membuat pelaksanaan baru
-     */
     public function create()
     {
         $this->validate($this->rules(), $this->messages());
@@ -83,14 +81,31 @@ class FormKegiatan extends Component
             'keterangan' => $this->keterangan,
         ]);
 
-        // Reset data form setelah berhasil
         $this->reset(['proposal_id', 'tanggal_mulai', 'tanggal_selesai', 'tenggat_lpj', 'lokasi', 'penanggung_jawab', 'status', 'keterangan']);
         $this->dispatch('success', message: "Pelaksanaan Kegiatan Berhasil Ditambahkan");
     }
 
-    /**
-     * Mount data jika mode edit
-     */
+    public function update()
+    {
+        $this->validate($this->rules(), $this->messages());
+        
+        DB::table('pelaksanaans')->where('id', $this->pelaksanaan_id)
+        ->update([
+            'proposal_id' => $this->proposal_id,
+            'tanggal_mulai' => $this->tanggal_mulai,
+            'tanggal_selesai' => $this->tanggal_selesai,
+            'tenggat_lpj' => $this->tenggat_lpj,
+            'lokasi' => $this->lokasi,
+            'penanggung_jawab' => $this->penanggung_jawab,
+            'status' => $this->status,
+            'keterangan' => $this->keterangan,
+        ]);
+
+        $this->reset(['proposal_id', 'tanggal_mulai', 'tanggal_selesai', 'tenggat_lpj', 'lokasi', 'penanggung_jawab', 'status', 'keterangan']);
+        $this->dispatch('success', message: "Pelaksanaan Kegiatan Berhasil Diupdate");
+
+    }
+
     public function mount($id = null)
     {
         if ($id) {
@@ -108,10 +123,9 @@ class FormKegiatan extends Component
                 $this->status = $pelaksanaan->status;
                 $this->keterangan = $pelaksanaan->keterangan;
             }
+        } else {
+              $this->func = 'create';
         }
-
-        // Default fungsi create
-        $this->func = 'create';
     }
 
     public function render()
