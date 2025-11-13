@@ -62,9 +62,7 @@
                                title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <button 
-                                wire:click="delete({{ $pelaksanaan->id }})" 
-                                wire:confirm="Apakah Anda yakin ingin menghapus data ini?"
+                            <button @click="$wire.modal=true; $wire.pelaksanaan_id={{ $pelaksanaan->id }}"
                                 class="text-red-500 hover:text-red-700" 
                                 title="Hapus">
                                 <i class="fas fa-trash"></i>
@@ -87,4 +85,6 @@
     <div class="mt-4">
         {{ $pelaksanaans->links() }}
     </div>
+
+    @include('component.modal-konfirmasi')
 </div>

@@ -14,6 +14,8 @@ class TableKegiatan extends Component
     
     public $search = '';
     public $perPage = 10;
+    public $modal = false;
+    public $pelaksanaan_id;
 
     protected $queryString = ['search'];
 
@@ -70,6 +72,14 @@ class TableKegiatan extends Component
                 'label' => 'Unknown'
             ]
         };
+    }
+
+    public function delete()
+    {
+         DB::table('pelaksanaans')->where('id', $this->pelaksanaan_id)->delete();
+         $this->modal = false;
+
+         $this->dispatch('success', message: "Kegiatan Berhasil dihapus");
     }
 
     public function render()
