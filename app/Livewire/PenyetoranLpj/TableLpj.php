@@ -9,9 +9,16 @@ use Illuminate\Support\Facades\DB;
 class TableLpj extends Component
 {
     use WithPagination;
-
-    // 🔹 Pakai Tailwind sebagai theme pagination
     protected string $paginationTheme = 'tailwind';
+    public $modal = false;
+    public $lpj_id;
+
+    public function delete()
+    {
+        DB::table('lpjs')->where('id', $this->lpj_id)->delete();
+        $this->modal = false;
+        $this->dispatch('success', message: "Lpj berhasil dihapus!");
+    }
 
     public function getListLpj()
     {

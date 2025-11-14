@@ -67,7 +67,7 @@
                                 </a>
 
                                 <!-- Tombol Hapus -->
-                                <button
+                                <button @click="$wire.modal=true; $wire.lpjs_id = {{$lpj->id}}"
                                     class="inline-flex items-center justify-center w-8 h-8 rounded-md text-red-500 hover:text-red-600 hover:bg-red-50 transition">
                                     <i class="fa-solid fa-trash text-sm"></i>
                                 </button>
@@ -89,4 +89,6 @@
     <div class="mt-5">
         {{ $listLpj->links('vendor.livewire.tailwind') }}
     </div>
+
+    @include('component.modal-konfirmasi')
 </div>

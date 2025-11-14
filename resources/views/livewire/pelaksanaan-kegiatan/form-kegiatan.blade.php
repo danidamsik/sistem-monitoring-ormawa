@@ -152,7 +152,7 @@
             <a href="/pelaksanaan-kegiatan" wire:navigate>
                 <button type="button"
                     class="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium flex items-center justify-center order-2 sm:order-1">
-                    <i class="fas fa-times mr-2"></i>Batal
+                    Kembali
                 </button>
             </a>
             <button type="submit"
