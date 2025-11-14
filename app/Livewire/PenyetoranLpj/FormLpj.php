@@ -12,15 +12,17 @@ class FormLpj extends Component
     public function mount($id = null)
     {
         if ($id) {
-            $lpj = DB::table('lpj')->find($id);
+            $lpj = DB::table('lpjs')->find($id);
             if ($lpj) {
                 $this->id = $id;
                 $this->pelaksanaan_id = $lpj->pelaksanaan_id;
                 $this->status_lpj = $lpj->status_lpj;
-                $this->tanggal_disetor = $lpj->tanggal_distor;
+                $this->tanggal_disetor = $lpj->tanggal_disetor;
                 $this->diperiksa_spi = $lpj->diperiksa_spi;
                 $this->catatan_spi = $lpj->catatan_spi;
             }
+
+            dd($this->id, $this->pelaksanaan_id, $this->status_lpj, $this->tanggal_disetor, $this->diperiksa_spi, $this->catatan_spi);
         }
     }
 

@@ -47,3 +47,7 @@ Route::get('/penyetoran-lpj/tambah', function () {
     return view('page-content.tambah.tambah-setor-lpj');
 });
 
+Route::get('/penyetoran-lpj/edit/{id}', function ($id) {
+    return view('page-content.edit.edit-setor-lpj',compact('id'));
+});
+
