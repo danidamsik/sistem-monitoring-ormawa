@@ -10,15 +10,15 @@
     </div>
 
     <form wire:submit.prevent='{{ $id == null ? 'create' : 'update' }}' class="space-y-6">
-        @csrf
-
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Pelaksanaan</label>
             <select wire:model='pelaksanaan_id'
                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
                 <option value="">-- Pilih Kegiatan --</option>
-                @foreach ($pelaksanaan as $item )     
-                <option value="{{ $item->id }}"> {{ $item->nama_kegiatan }} </option>
+                @foreach ($pelaksanaan as $item)
+                    <option value="{{ $item->id }}" {{ $id ? 'disabled' : '' }}>
+                        {{ $item->nama_kegiatan }}
+                    </option>
                 @endforeach
             </select>
         </div>
@@ -53,14 +53,22 @@
         </div>
 
         <div class="flex justify-end gap-4 pt-6 border-t">
-            <button type="button" @click="openForm = false"
-                class="px-5 py-2.5 border rounded-lg text-gray-700 hover:bg-gray-100 transition">
-                Batal
-            </button>
-            <button type="submit"
+            <a href="/penyetoran-lpj" wire:navigate>
+                <button type="button" class="px-5 py-2.5 border rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    kembali
+                </button>
+            </a>
+            <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed"
+                wire:target="{{ $id == null ? 'create' : 'update' }}"
                 class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm transition">
-                Simpan LPJ
+                <span wire:loading.remove wire:target="{{ $id == null ? 'create' : 'update' }}">
+                    Simpan LPJ
+                </span>
+                <span wire:loading wire:target="{{ $id == null ? 'create' : 'update' }}">
+                    Menyimpan...
+                </span>
             </button>
+
         </div>
     </form>
 </div>

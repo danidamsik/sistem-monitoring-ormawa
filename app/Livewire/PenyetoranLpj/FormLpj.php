@@ -18,23 +18,29 @@ class FormLpj extends Component
                 $this->pelaksanaan_id = $lpj->pelaksanaan_id;
                 $this->status_lpj = $lpj->status_lpj;
                 $this->tanggal_disetor = $lpj->tanggal_disetor;
-                $this->diperiksa_spi = $lpj->diperiksa_spi;
+                $this->diperiksa_spi = (bool) $lpj->diperiksa_spi;
                 $this->catatan_spi = $lpj->catatan_spi;
             }
-
-            dd($this->id, $this->pelaksanaan_id, $this->status_lpj, $this->tanggal_disetor, $this->diperiksa_spi, $this->catatan_spi);
         }
     }
 
     public function getPelaksanaan()
     {
-        return DB::table('pelaksanaans')
+        $query = DB::table('pelaksanaans')
             ->leftJoin('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
             ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
-            ->whereNull('lpjs.pelaksanaan_id')
-            ->select('pelaksanaans.id', 'proposals.nama_kegiatan')
-            ->get();
+            ->select('pelaksanaans.id', 'proposals.nama_kegiatan');
+
+        if (is_null($this->id)) {
+            $query->whereNull('lpjs.pelaksanaan_id');
+        }
+        else {
+            $query->whereNotNull('lpjs.pelaksanaan_id');
+        }
+        return $query->get();
     }
+
+
 
     public function create()
     {

@@ -59,7 +59,7 @@
                         <td class="px-4 py-3 text-center">
                             <div class="flex items-center justify-center space-x-2">
                                 <!-- Tombol Edit -->
-                                <a href="/penyetoran-lpj/edit/{{ $lpj->id }}">
+                                <a href="/penyetoran-lpj/edit/{{ $lpj->id }}" wire:navigate>
                                     <button
                                         class="inline-flex items-center justify-center w-8 h-8 rounded-md text-yellow-500 hover:text-yellow-600 hover:bg-yellow-50 transition">
                                         <i class="fa-solid fa-pen-to-square text-sm"></i>
