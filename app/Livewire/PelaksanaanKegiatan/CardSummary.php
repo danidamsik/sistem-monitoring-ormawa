@@ -34,7 +34,7 @@ class CardSummary extends Component
         $lpjStats = DB::table('lpjs')
             ->select(
                 DB::raw("SUM(CASE WHEN status_lpj = 'Belum Disetor' THEN 1 ELSE 0 END) as belum_disetor"),
-                DB::raw("SUM(CASE WHEN status_lpj = 'Sudah Disetor' THEN 1 ELSE 0 END) as sudah_disetor")
+                DB::raw("SUM(CASE WHEN status_lpj = 'Di Setujui' THEN 1 ELSE 0 END) as sudah_disetor")
             )
             ->first();
 

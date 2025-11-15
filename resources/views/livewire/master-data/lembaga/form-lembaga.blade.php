@@ -1,28 +1,23 @@
-<div
+<div @edit.window=
+    "$wire.id_lembaga = $event.detail.id_lembaga;
+     $wire.nama_lembaga = $event.detail.nama_lembaga;
+     $wire.nomor_hp = $event.detail.nomor_hp;
+     $wire.email = $event.detail.email;"
     class="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20 mb-8 hover:shadow-2xl transition-all duration-300">
     <div class="flex items-center justify-between mb-6">
         <div>
-            <h2 class="text-2xl font-bold text-gray-800">Tambah Lembaga Baru</h2>
-            <p class="text-sm text-gray-500 mt-1">Isi formulir di bawah untuk menambahkan lembaga</p>
-        </div>
-        <div class="hidden md:block">
-            <div
-                class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-            </div>
+            <h2 class="text-2xl font-bold text-gray-800">Tambah/update Lembaga</h2>
+            <p class="text-sm text-gray-500 mt-1">Isi formulir di bawah untuk tambah/update</p>
         </div>
     </div>
 
-    <form class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <form wire:submit.prevent="updateOrCreate" class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <!-- Nama Lembaga -->
         <div class="group">
             <label class="text-sm font-semibold text-gray-700 mb-2 block">Nama Lembaga</label>
             <div class="relative">
-                <input type="text"
+                <input type="text" wire:model="nama_lembaga"
                     class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 outline-none bg-gray-50 group-hover:bg-white"
                     placeholder="Masukkan nama lembaga">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -33,13 +28,18 @@
                     </svg>
                 </div>
             </div>
+
+            <!-- Error -->
+            @error('nama_lembaga')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Nomor HP -->
         <div class="group">
             <label class="text-sm font-semibold text-gray-700 mb-2 block">Nomor HP</label>
             <div class="relative">
-                <input type="text"
+                <input type="text" wire:model="nomor_hp"
                     class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 outline-none bg-gray-50 group-hover:bg-white"
                     placeholder="08xxxxx">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -50,13 +50,18 @@
                     </svg>
                 </div>
             </div>
+
+            <!-- Error -->
+            @error('nomor_hp')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Email -->
         <div class="group">
             <label class="text-sm font-semibold text-gray-700 mb-2 block">Email</label>
             <div class="relative">
-                <input type="email"
+                <input type="email" wire:model="email"
                     class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 outline-none bg-gray-50 group-hover:bg-white"
                     placeholder="example@mail.com">
                 <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -67,18 +72,27 @@
                     </svg>
                 </div>
             </div>
+
+            <!-- Error -->
+            @error('email')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Button -->
         <div class="md:col-span-3 flex justify-end pt-2">
-            <button type="button"
-                class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 transform hover:scale-105">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Simpan Data
+            <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed"
+                wire:target="updateOrCreate"
+                class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm transition">
+                <span wire:loading.remove wire:target="updateOrCreate">
+                    Simpan Lembaga
+                </span>
+                <span wire:loading wire:target="updateOrCreate">
+                    Menyimpan...
+                </span>
             </button>
+
         </div>
+
     </form>
 </div>

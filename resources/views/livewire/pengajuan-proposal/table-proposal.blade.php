@@ -1,5 +1,5 @@
 <!-- Daftar Proposal yang Telah Diajukan -->
-<div class="bg-white rounded-lg shadow overflow-hidden">
+<div class="bg-white rounded-lg p-4 shadow overflow-hidden">
     <div class="px-6 py-4 border-gray-200 flex items-center justify-between">
         <h2 class="text-xl font-semibold text-gray-800">Daftar Proposal Diajukan</h2>
         <a href="/pengajuan-proposal/tambah" 
@@ -99,21 +99,9 @@
         </table>
     </div>
 
-    <!-- Pagination -->
-    <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
-        <div class="flex items-center justify-between">
-            <div class="text-sm text-gray-700">
-                Menampilkan
-                <span class="font-medium">{{ $proposals->firstItem() ?? 0 }}</span>
-                -
-                <span class="font-medium">{{ $proposals->lastItem() ?? 0 }}</span>
-                dari
-                <span class="font-medium">{{ $proposals->total() }}</span> proposal
-            </div>
-            <div>
-                {{ $proposals->links() }}
-            </div>
-        </div>
+    <div class="mt-4">
+        {{ $proposals->links() }}
     </div>
+
     @include('component.modal-konfirmasi')
 </div>

@@ -35,7 +35,7 @@ class TopCard extends Component
             ->count();
 
         $this->lpjTersetor = DB::table('lpjs')
-            ->where('status_lpj', 'Sudah Disetor')
+            ->where('status_lpj', 'Di Setujui')
             ->count();
 
         $startOfMonth = Carbon::now()->startOfMonth();

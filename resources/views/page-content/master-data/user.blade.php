@@ -10,7 +10,6 @@
                     Master Data User
                 </h1>
             </div>
-            <p class="text-gray-500 ml-6">Kelola data pengguna sistem dengan mudah</p>
         </div>
         <!-- Card Form Input -->
         @livewire('master-data.user.form-user')
