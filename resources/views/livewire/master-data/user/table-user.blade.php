@@ -106,11 +106,13 @@
                             <div class="flex justify-center gap-3">
 
                                 <!-- Edit Button -->
-                                <button @click="$dispatch('edit-user', {
-                                    'user_id': {{$user->id}},
-                                    'user_name': '{{$user->name}}',
-                                    'email': '{{$user->email}}'
-                                })" type="button"
+                                <button
+                                    @click="$dispatch('edit-user', {
+                                    'user_id': {{ $user->id }},
+                                    'user_name': '{{ $user->name }}',
+                                    'email': '{{ $user->email }}'
+                                })"
+                                    type="button"
                                     class="group/btn relative flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
@@ -138,8 +140,8 @@
                     <tr>
                         <td colspan="4" class="py-12 text-center">
                             <div class="flex flex-col items-center gap-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-300" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-300"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                                 </svg>
@@ -161,5 +163,5 @@
             {{ $users->links() }}
         </div>
     @endif
-   @include('components.modal-konfirmasi')
+    @include('components.modal-konfirmasi')
 </div>

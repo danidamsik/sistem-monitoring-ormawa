@@ -1,7 +1,13 @@
-<div @edit-user.window=
+<div id="formUser"
+    @edit-user.window=
         "$wire.userId = $event.detail.user_id;
          $wire.name = $event.detail.user_name;
-         $wire.email = $event.detail.email;"
+         $wire.email = $event.detail.email;
+          $nextTick(() => {
+            document.getElementById('formUser')
+                .scrollIntoView({ behavior: 'smooth' });
+        });
+         "
     class="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20 mb-8 hover:shadow-2xl transition-all duration-300">
     <div class="flex items-center justify-between mb-6">
         <div>

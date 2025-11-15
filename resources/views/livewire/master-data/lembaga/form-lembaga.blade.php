@@ -1,8 +1,14 @@
-<div @edit.window=
+<div id="formLembaga"
+    @edit.window=
     "$wire.id_lembaga = $event.detail.id_lembaga;
      $wire.nama_lembaga = $event.detail.nama_lembaga;
      $wire.nomor_hp = $event.detail.nomor_hp;
-     $wire.email = $event.detail.email;"
+     $wire.email = $event.detail.email;
+      $nextTick(() => {
+            document.getElementById('formLembaga')
+                .scrollIntoView({ behavior: 'smooth' });
+        });
+     "
     class="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl p-8 border border-white/20 mb-8 hover:shadow-2xl transition-all duration-300">
     <div class="flex items-center justify-between mb-6">
         <div>

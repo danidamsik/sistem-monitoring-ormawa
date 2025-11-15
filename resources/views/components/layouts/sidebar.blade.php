@@ -16,10 +16,29 @@
     </div>
 
     <!-- Navigation Menu -->
-    <nav x-data="{ openMaster: false }" class="px-4 py-6 space-y-2 overflow-y-auto h-[calc(100vh-120px)]">
+    <nav x-data="{
+        openMaster: false,
+        activeMenu: '{{ request()->is('dashboard') ? 'dashboard' : (request()->is('pengajuan-proposal*') ? 'proposal' : (request()->is('pelaksanaan-kegiatan*') ? 'pelaksanaan' : (request()->is('penyetoran-lpj*') ? 'lpj' : (request()->is('laporan-rekap*') ? 'laporan' : (request()->is('master-data*') ? 'master' : 'dashboard'))))) }}',
+        activeSubmenu: '{{ request()->is('master-data/lembaga*') ? 'lembaga' : (request()->is('master-data/user*') ? 'user' : '') }}',
+        setActive(menu) {
+            this.activeMenu = menu;
+        },
+        isActive(menu) {
+            return this.activeMenu === menu;
+        },
+        setActiveSubmenu(submenu) {
+            this.activeSubmenu = submenu;
+            this.activeMenu = 'master';
+        },
+        isActiveSubmenu(submenu) {
+            return this.activeSubmenu === submenu;
+        }
+    }" x-init="openMaster = isActive('master')" class="px-4 py-6 space-y-2 overflow-y-auto h-[calc(100vh-120px)]">
+
         <!-- Dashboard -->
         <a href="/dashboard" wire:navigate @click="setActive('dashboard')"
-            :class="isActive('dashboard') ? 'nav-active' : 'nav-inactive'"
+            :class="isActive('dashboard') ? 'bg-purple-700 text-white font-semibold shadow-lg' :
+                'text-purple-200 hover:bg-purple-800/50'"
             class="flex items-center py-3 px-4 rounded-lg transition duration-200 group">
             <i class="fas fa-home w-5 mr-3"></i>
             <span>Dashboard</span>
@@ -27,7 +46,8 @@
 
         <!-- Pengajuan Proposal -->
         <a href="/pengajuan-proposal" wire:navigate @click="setActive('proposal')"
-            :class="isActive('proposal') ? 'nav-active' : 'nav-inactive'"
+            :class="isActive('proposal') ? 'bg-purple-700 text-white font-semibold shadow-lg' :
+                'text-purple-200 hover:bg-purple-800/50'"
             class="flex items-center py-3 px-4 rounded-lg transition duration-200 group">
             <i class="fas fa-file-alt w-5 mr-3"></i>
             <span>Pengajuan Proposal</span>
@@ -35,7 +55,8 @@
 
         <!-- Pelaksanaan Kegiatan -->
         <a href="/pelaksanaan-kegiatan" wire:navigate @click="setActive('pelaksanaan')"
-            :class="isActive('pelaksanaan') ? 'nav-active' : 'nav-inactive'"
+            :class="isActive('pelaksanaan') ? 'bg-purple-700 text-white font-semibold shadow-lg' :
+                'text-purple-200 hover:bg-purple-800/50'"
             class="flex items-center py-3 px-4 rounded-lg transition duration-200 group relative">
             <i class="fas fa-calendar-check w-5 mr-3"></i>
             <span>Pelaksanaan Kegiatan</span>
@@ -44,7 +65,8 @@
 
         <!-- Penyetoran LPJ -->
         <a href="/penyetoran-lpj" wire:navigate @click="setActive('lpj')"
-            :class="isActive('lpj') ? 'nav-active' : 'nav-inactive'"
+            :class="isActive('lpj') ? 'bg-purple-700 text-white font-semibold shadow-lg' :
+                'text-purple-200 hover:bg-purple-800/50'"
             class="flex items-center py-3 px-4 rounded-lg transition duration-200 group relative">
             <i class="fas fa-check-circle w-5 mr-3"></i>
             <span>Penyetoran LPJ</span>
@@ -53,7 +75,8 @@
 
         <!-- Laporan & Rekap -->
         <a href="/laporan-rekap" wire:navigate @click="setActive('laporan')"
-            :class="isActive('laporan') ? 'nav-active' : 'nav-inactive'"
+            :class="isActive('laporan') ? 'bg-purple-700 text-white font-semibold shadow-lg' :
+                'text-purple-200 hover:bg-purple-800/50'"
             class="flex items-center py-3 px-4 rounded-lg transition duration-200 group">
             <i class="fas fa-chart-bar w-5 mr-3"></i>
             <span>Laporan & Rekap</span>
@@ -65,8 +88,9 @@
         <!-- Master Data Dropdown -->
         <div>
             <button @click="openMaster = !openMaster; setActive('master')"
-                class="w-full flex items-center justify-between py-3 px-4 rounded-lg transition duration-200"
-                :class="isActive('master') ? 'nav-active' : 'nav-inactive'">
+                :class="isActive('master') ? 'bg-purple-700 text-white font-semibold shadow-lg' :
+                    'text-purple-200 hover:bg-purple-800/50'"
+                class="w-full flex items-center justify-between py-3 px-4 rounded-lg transition duration-200">
                 <div class="flex items-center">
                     <i class="fas fa-database w-5 mr-3"></i>
                     <span>Master Data</span>
@@ -77,14 +101,18 @@
 
             <!-- Submenu -->
             <div x-show="openMaster" x-transition.opacity x-cloak class="ml-10 mt-1 space-y-1">
-                <a href="/master-data/lembaga" wire:navigate
-                    class="flex items-center py-2 px-3 rounded-lg text-sm transition duration-200 hover:bg-purple-800/20">
+                <a href="/master-data/lembaga" wire:navigate @click.stop="setActiveSubmenu('lembaga')"
+                    :class="isActiveSubmenu('lembaga') ? 'bg-purple-600 text-white font-semibold' :
+                        'text-purple-200 hover:bg-purple-800/50'"
+                    class="flex items-center py-2 px-3 rounded-lg text-sm transition duration-200">
                     <i class="fa-solid fa-building w-4 mr-2 text-gray-400"></i>
                     <span>Lembaga</span>
                 </a>
 
-                <a href="/master-data/user" wire:navigate
-                    class="flex items-center py-2 px-3 rounded-lg text-sm transition duration-200 hover:bg-purple-800/20">
+                <a href="/master-data/user" wire:navigate @click.stop="setActiveSubmenu('user')"
+                    :class="isActiveSubmenu('user') ? 'bg-purple-600 text-white font-semibold' :
+                        'text-purple-200 hover:bg-purple-800/50'"
+                    class="flex items-center py-2 px-3 rounded-lg text-sm transition duration-200">
                     <i class="fa-solid fa-users w-4 mr-2 text-gray-400"></i>
                     <span>User</span>
                 </a>
