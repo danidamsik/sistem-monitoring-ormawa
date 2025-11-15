@@ -86,5 +86,5 @@
         {{ $pelaksanaans->links() }}
     </div>
 
-    @include('component.modal-konfirmasi')
+    @include('components.modal-konfirmasi')
 </div>

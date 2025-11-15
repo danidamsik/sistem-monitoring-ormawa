@@ -161,5 +161,5 @@
             {{ $users->links() }}
         </div>
     @endif
-    @include('component.modal-konfirmasi')
+   @include('components.modal-konfirmasi')
 </div>

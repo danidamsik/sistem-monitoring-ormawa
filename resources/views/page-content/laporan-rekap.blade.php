@@ -1,5 +1,0 @@
-@extends('app')
-
-@section('content')
-    @livewire('laporan-rekap.table-rekaptulasi')
-@endsection

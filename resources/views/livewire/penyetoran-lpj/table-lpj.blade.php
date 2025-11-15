@@ -90,5 +90,5 @@
         {{ $listLpj->links('vendor.livewire.tailwind') }}
     </div>
 
-    @include('component.modal-konfirmasi')
+    @include('components.modal-konfirmasi')
 </div>

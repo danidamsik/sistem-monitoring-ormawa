@@ -1,61 +1,43 @@
 <?php
 
+use App\Livewire\User;
+use App\Livewire\Kegiatan;
+use App\Livewire\Proposal;
+use App\Livewire\Dashboard;
+use App\Livewire\MasterData;
+use App\Livewire\PenyetoranLpj;
+use App\Livewire\Edit\EditKegiatan;
+use App\Livewire\Edit\EditProposal;
+use App\Livewire\Edit\EditSetorLpj;
+use App\Livewire\LaporanRekap\TableRekaptulasi;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Tambah\TambahKegiatan;
+use App\Livewire\Tambah\TambahProposal;
+use App\Livewire\Tambah\TambahsetorLpj;
 
+Route::get('/dashboard', Dashboard::class);
 
-Route::get('/dashboard', function () {
-    return view('page-content.dashboard');
-});
+Route::get('/pengajuan-proposal', Proposal::class);
 
-Route::get('/pengajuan-proposal', function () {
-    return view('page-content.proposal');
-});
+Route::get('/pengajuan-proposal/edit/{id}', EditProposal::class);
 
-Route::get('/pengajuan-proposal/edit/{id}', function($id) {
-    return view('page-content.edit.edit-proposal', compact('id'));
-});
+Route::get('/pengajuan-proposal/tambah', TambahProposal::class);
 
-Route::get('/pengajuan-proposal/tambah', function() {
-    return view('page-content.tambah.tambah-proposal');
-});
+Route::get('/pelaksanaan-kegiatan', Kegiatan::class);
 
-Route::get('/pelaksanaan-kegiatan/tambah', function () {
-    return view('page-content.tambah.tambah-kegiatan');
-});
+Route::get('/pelaksanaan-kegiatan/tambah', TambahKegiatan::class);
 
-Route::get('/pelaksanaan-kegiatan/edit/{id}', function ($id) {
-    return view('page-content.edit.edit-kegiatan', compact('id'));
-});
+Route::get('/pelaksanaan-kegiatan/edit/{id}', EditKegiatan::class);
 
-Route::get('/pelaksanaan-kegiatan', function () {
-    return view('page-content.kegiatan');
-});
+Route::get('/penyetoran-lpj', PenyetoranLpj::class);
 
-Route::get('/penyetoran-lpj', function () {
-    return view('page-content.penyetoran-lpj');
-});
+Route::get('/penyetoran-lpj/tambah', TambahsetorLpj::class);
 
-Route::get('/laporan-rekap', function () {
-    return view('page-content.laporan-rekap');
-});
+Route::get('/penyetoran-lpj/edit/{id}', EditSetorLpj::class);
 
-Route::get('/master-data', function () {
-    return view('page-content.master-data');
-});
+Route::get('/laporan-rekap', TableRekaptulasi::class);
 
-Route::get('/penyetoran-lpj/tambah', function () {
-    return view('page-content.tambah.tambah-setor-lpj');
-});
+Route::get('/master-data/lembaga', MasterData::class);
 
-Route::get('/penyetoran-lpj/edit/{id}', function ($id) {
-    return view('page-content.edit.edit-setor-lpj',compact('id'));
-});
-
-Route::get('/master-data/lembaga', function () {
-    return view('page-content.master-data.lembaga');
-});
-
-Route::get('/master-data/user', function () {
-    return view('page-content.master-data.user');
-});
+Route::get('/master-data/user', User::class);
 

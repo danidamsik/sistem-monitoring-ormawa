@@ -1,6 +1,4 @@
-@extends('app')
-
-@section('content')
+<div>
     @livewire('pelaksanaan-kegiatan.card-summary')
     @livewire('pelaksanaan-kegiatan.table-kegiatan')
-@endsection
+</div>
