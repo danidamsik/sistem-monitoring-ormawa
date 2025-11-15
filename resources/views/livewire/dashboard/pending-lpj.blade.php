@@ -32,14 +32,5 @@
                 <p class="text-sm text-gray-400 mt-1">Tidak ada LPJ yang menunggu</p>
             </div>
         @endif
-
-        <!-- Link untuk melihat semua -->
-        <div class="mt-6 pt-4 border-t">
-            <a href="#"
-                class="text-purple-600 hover:text-purple-700 text-sm font-medium flex items-center justify-center">
-                Lihat Semua LPJ
-                <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
     </div>
 </div>

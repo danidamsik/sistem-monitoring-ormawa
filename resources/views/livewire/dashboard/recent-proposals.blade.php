@@ -24,14 +24,5 @@
                 <p class="text-gray-500">Belum ada proposal terbaru</p>
             </div>
         @endif
-
-        <!-- Link untuk melihat semua -->
-        <div class="mt-6 pt-4 border-t">
-            <a href="#"
-                class="text-purple-600 hover:text-purple-700 text-sm font-medium flex items-center justify-center">
-                Lihat Semua Proposal
-                <i class="fas fa-arrow-right ml-2"></i>
-            </a>
-        </div>
     </div>
 </div>
