@@ -51,3 +51,11 @@ Route::get('/penyetoran-lpj/edit/{id}', function ($id) {
     return view('page-content.edit.edit-setor-lpj',compact('id'));
 });
 
+Route::get('/master-data/lembaga', function () {
+    return view('page-content.master-data.lembaga');
+});
+
+Route::get('/master-data/user', function () {
+    return view('page-content.master-data.user');
+});
+
