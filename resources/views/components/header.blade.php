@@ -1,5 +1,5 @@
 {{-- resources/views/components/layouts/header.blade.php --}}
-<header class="bg-white shadow-md z-10">
+<header class="bg-white shadow-md z-10" x-data="headerData()">
     <div class="flex items-center justify-between px-4 md:px-6 py-4">
         <!-- Left Section -->
         <div class="flex items-center space-x-4">
@@ -11,15 +11,27 @@
 
             <!-- Page Title -->
             <div>
-                <h1 class="text-xl md:text-2xl font-bold text-gray-800">
-                    {{ $title ?? 'Dashboard' }}
+                <h1 class="text-xl md:text-2xl font-bold text-gray-800" x-text="pageTitle">
                 </h1>
                 <!-- Breadcrumb (Desktop) -->
                 <div class="hidden md:flex items-center space-x-2 text-sm text-gray-500 mt-1">
                     <i class="fas fa-home text-xs"></i>
-                    <span>Home</span>
-                    <i class="fas fa-chevron-right text-xs"></i>
-                    <span class="text-purple-600 font-medium">{{ $title ?? 'Dashboard' }}</span>
+                    <a href="/" class="hover:text-purple-600 transition">Home</a>
+                    
+                    <template x-for="(crumb, index) in breadcrumbs" :key="index">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-chevron-right text-xs"></i>
+                            <template x-if="crumb.url">
+                                <a :href="crumb.url" wire:navigate 
+                                   class="hover:text-purple-600 transition"
+                                   x-text="crumb.label"></a>
+                            </template>
+                            <template x-if="!crumb.url">
+                                <span class="text-purple-600 font-medium"
+                                      x-text="crumb.label"></span>
+                            </template>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -75,3 +87,76 @@
         </div>
     </div>
 </header>
+
+<script>
+function headerData() {
+    return {
+        pageTitle: 'Dashboard',
+        breadcrumbs: [],
+        
+        init() {
+            this.updateBreadcrumb();
+        },
+        
+        updateBreadcrumb() {
+            const path = window.location.pathname;
+            const segments = path.split('/').filter(segment => segment !== '');
+            
+            // Mapping untuk route titles
+            const routeMap = {
+                'dashboard': 'Dashboard',
+                'pengajuan-proposal': 'Pengajuan Proposal',
+                'pelaksanaan-kegiatan': 'Pelaksanaan Kegiatan',
+                'penyetoran-lpj': 'Penyetoran LPJ',
+                'laporan-rekap': 'Laporan Rekap',
+                'master-data': 'Master Data',
+                'lembaga': 'Lembaga',
+                'user': 'User',
+                'tambah': 'Tambah',
+                'edit': 'Edit',
+            };
+            
+            // Filter out numeric IDs first
+            const visibleSegments = segments.filter(segment => isNaN(segment));
+            
+            // Generate breadcrumbs
+            this.breadcrumbs = [];
+            let currentPath = '';
+            
+            segments.forEach((segment, index) => {
+                currentPath += '/' + segment;
+                
+                // Skip numeric IDs in breadcrumb display
+                if (!isNaN(segment)) {
+                    return;
+                }
+                
+                const label = routeMap[segment] || this.capitalize(segment);
+                
+                // Check if this is the last visible segment
+                const isLastVisible = visibleSegments[visibleSegments.length - 1] === segment;
+                
+                this.breadcrumbs.push({
+                    label: label,
+                    url: isLastVisible ? null : currentPath // Last visible item has no link
+                });
+                
+                // Update page title with last visible segment
+                if (isLastVisible) {
+                    this.pageTitle = label;
+                }
+            });
+            
+            // Default for home/root
+            if (segments.length === 0) {
+                this.pageTitle = 'Dashboard';
+                this.breadcrumbs = [{ label: 'Dashboard', url: null }];
+            }
+        },
+        
+        capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1).replace(/-/g, ' ');
+        }
+    }
+}
+</script>

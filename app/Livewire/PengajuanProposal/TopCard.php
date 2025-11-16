@@ -30,7 +30,7 @@ class TopCard extends Component
 
         // Disetujui (dana_disetujui tidak NULL)
         $this->disetujui = DB::table('proposals')
-            ->whereNotNull('dana_disetujui')
+            ->whereNotNull('dana_disetujui')->where('dana_disetujui', '>', 0)
             ->count();
 
         // Total Dana Disetujui
