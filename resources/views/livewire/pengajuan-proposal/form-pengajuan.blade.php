@@ -58,6 +58,7 @@
             </div>
 
             <!-- Dana Disetujui -->
+            <!-- Dana Disetujui -->
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Dana Disetujui</label>
                 <div class="relative">
@@ -67,10 +68,27 @@
                     <input wire:model="dana_disetujui" type="number" step="0.01" placeholder="0.00"
                         class="w-full pl-10 pr-4 py-2 border @error('dana_disetujui') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 </div>
+
                 @error('dana_disetujui')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
+
+                <!-- Informasi tambahan (Alert Info Profesional) -->
+                <div
+                    class="mt-2 text-xs bg-blue-50 border border-blue-200 text-blue-700 rounded-md p-3 leading-relaxed">
+                    <p class="font-semibold text-blue-800 mb-1">Panduan Pengisian Dana Disetujui:</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Isi <span class="font-semibold text-blue-900">0</span> jika proposal <span
+                                class="font-semibold">tidak disetujui</span>.</li>
+                        <li>Biarkan <span class="font-semibold text-blue-900">kosong</span> jika status masih <span
+                                class="font-semibold">menunggu keputusan</span>.</li>
+                        <li>Isi <span class="font-semibold text-blue-900">&gt; 0</span> jika dana telah <span
+                                class="font-semibold">disetujui</span>.</li>
+                    </ul>
+                </div>
+
             </div>
+
 
         </div>
 
@@ -92,7 +110,8 @@
                 </span>
 
                 <!-- Teks dan animasi saat loading -->
-                <span wire:loading wire:target="{{ $proposal_id ? 'update' : 'create' }}" class="flex items-center justify-center gap-2">
+                <span wire:loading wire:target="{{ $proposal_id ? 'update' : 'create' }}"
+                    class="flex items-center justify-center gap-2">
                     memproses...
                 </span>
             </button>

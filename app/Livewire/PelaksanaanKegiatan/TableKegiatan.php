@@ -56,19 +56,19 @@ class TableKegiatan extends Component
     {
         return match($status) {
             'belum_dimulai' => [
-                'class' => 'bg-gray-100 text-gray-700',
+                'class' => 'text-gray-700',
                 'label' => 'Belum Dimulai'
             ],
             'sedang_berlangsung' => [
-                'class' => 'bg-blue-100 text-blue-700',
+                'class' => 'text-blue-700',
                 'label' => 'Sedang Berlangsung'
             ],
             'selesai' => [
-                'class' => 'bg-green-100 text-green-700',
+                'class' => 'text-green-700',
                 'label' => 'Selesai'
             ],
             default => [
-                'class' => 'bg-gray-100 text-gray-700',
+                'class' => 'text-gray-700',
                 'label' => 'Unknown'
             ]
         };

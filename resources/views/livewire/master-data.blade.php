@@ -7,7 +7,6 @@
                 Master Data Lembaga
             </h1>
         </div>
-        <p class="text-gray-500 ml-6">Kelola data lembaga dengan mudah dan efisien</p>
     </div>
     <!-- Card Table -->
     @livewire('master-data.lembaga.table-lembaga')

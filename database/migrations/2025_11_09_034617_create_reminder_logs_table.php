@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('reminder_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pelaksanaan_id')->constrained('pelaksanaans')->cascadeOnDelete();
-            $table->string('email_tujuan', 100);
+            $table->string('nomor_tujuan', 100);
             $table->text('pesan');
             $table->timestamp('tanggal_kirim')->useCurrent();
             $table->enum('status', ['Berhasil', 'Gagal'])->default('Berhasil');

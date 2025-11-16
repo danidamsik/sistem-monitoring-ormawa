@@ -2,9 +2,10 @@
 
 namespace App\Livewire\PengajuanProposal;
 
+use Carbon\Carbon;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class FormPengajuan extends Component
 {
@@ -43,13 +44,17 @@ class FormPengajuan extends Component
     {
         $this->validate($this->rules(), $this->messages());
 
+        $danaDisetujui = $this->dana_disetujui === 0 || $this->dana_disetujui === "0"
+        ? "0.00"
+        : ($this->dana_disetujui ?: null);
+
         DB::table('proposals')->insert([
             'lembaga_id' => $this->lembaga_id,
-            'user_id' => 1,
+            'user_id' => Auth::user()->id,
             'nama_kegiatan' => $this->nama_kegiatan,
             'tanggal_diterima' => Carbon::parse($this->tanggal_diterima)->format('Y-m-d'),
             'dana_diajukan' => $this->dana_diajukan,
-            'dana_disetujui' => $this->dana_disetujui ?: null,
+            'dana_disetujui' => $danaDisetujui,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -62,16 +67,20 @@ class FormPengajuan extends Component
     public function update()
     {
         $this->validate($this->rules(), $this->messages());
+        
+        $danaDisetujui = $this->dana_disetujui === 0 || $this->dana_disetujui === "0"
+        ? "0.00"
+        : ($this->dana_disetujui ?: null);
 
         DB::table('proposals')
             ->where('id', $this->proposal_id)
             ->update([
                 'lembaga_id' => $this->lembaga_id,
-                'user_id' => 1,
+                'user_id' => Auth::user()->id,
                 'nama_kegiatan' => $this->nama_kegiatan,
                 'tanggal_diterima' => Carbon::parse($this->tanggal_diterima)->format('Y-m-d'),
                 'dana_diajukan' => $this->dana_diajukan,
-                'dana_disetujui' => $this->dana_disetujui ?: null,
+                'dana_disetujui' => $danaDisetujui,
             ]);
 
         $this->dispatch('success', message: "Proposal berhasil diperbarui!");

@@ -127,8 +127,8 @@
                 A
             </div>
             <div class="flex-1">
-                <p class="text-sm font-semibold">Admin User</p>
-                <p class="text-xs text-purple-300">admin@simpel.ac.id</p>
+                <p class="text-sm font-semibold">{{ Auth::user()->name }}</p>
+                <p class="text-xs text-purple-300">{{ Auth::user()->email }}</p>
             </div>
         </div>
     </div>

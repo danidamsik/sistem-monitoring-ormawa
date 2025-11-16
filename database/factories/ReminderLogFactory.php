@@ -11,7 +11,7 @@ class ReminderLogFactory extends Factory
     {
         return [
             'pelaksanaan_id' => Pelaksanaan::inRandomOrder()->value('id'),
-            'email_tujuan'   => $this->faker->email(),
+            'nomor_tujuan' => '08' . $this->faker->numerify('##########'),
             'pesan'          => $this->faker->sentence(),
             'tanggal_kirim'  => now(),
             'status'         => $this->faker->randomElement(['Berhasil', 'Gagal']),

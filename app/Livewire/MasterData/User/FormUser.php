@@ -23,7 +23,6 @@ class FormUser extends Component
                 'string',
                 'min:3',
                 'max:255',
-                'regex:/^[a-zA-Z\s]+$/'
             ],
             'email' => [
                 'required',
@@ -46,7 +45,6 @@ class FormUser extends Component
             'name.required' => 'Nama lengkap wajib diisi',
             'name.min' => 'Nama lengkap minimal 3 karakter',
             'name.max' => 'Nama lengkap maksimal 255 karakter',
-            'name.regex' => 'Nama lengkap hanya boleh berisi huruf dan spasi',
 
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Format email tidak valid',
@@ -71,6 +69,7 @@ class FormUser extends Component
         $data = [
             'name' => $this->name,
             'email' => $this->email,
+            'password' => $this->password
         ];
 
         if ($this->password) {
