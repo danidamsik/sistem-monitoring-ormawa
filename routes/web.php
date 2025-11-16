@@ -1,15 +1,16 @@
 <?php
 use App\Livewire\User;
+use App\Livewire\Login;
 use App\Livewire\Kegiatan;
 use App\Livewire\Proposal;
 use App\Livewire\Dashboard;
-use App\Livewire\LaporanRekap;
 use App\Livewire\MasterData;
+use App\Livewire\LaporanRekap;
 use App\Livewire\PenyetoranLpj;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\PenyetoranLpj\FormLpj;
-use App\Livewire\PelaksanaanKegiatan\FormKegiatan;
 use App\Livewire\PengajuanProposal\FormPengajuan;
+use App\Livewire\PelaksanaanKegiatan\FormKegiatan;
 
 Route::get('/dashboard', Dashboard::class);
 
@@ -37,3 +38,4 @@ Route::get('/master-data/lembaga', MasterData::class);
 
 Route::get('/master-data/user', User::class);
 
+Route::get('/login', Login::class);

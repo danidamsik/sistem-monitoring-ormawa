@@ -31,7 +31,7 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             
             <!-- Header Component -->
-            <x-header />
+            <x-header :title="$title ?? 'Dashboard'" :breadcrumbs="$breadcrumbs ?? []"/>
 
             <!-- Main Content -->
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6">

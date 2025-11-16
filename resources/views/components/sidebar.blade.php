@@ -1,5 +1,5 @@
 {{-- resources/views/components/layouts/sidebar.blade.php --}}
-<aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+<aside  :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     class="sidebar bg-gradient-to-b from-purple-900 to-purple-800 text-white w-64 fixed inset-y-0 left-0 transform md:relative md:translate-x-0 z-30 transition-all duration-300 shadow-2xl">
 
     <!-- Logo -->

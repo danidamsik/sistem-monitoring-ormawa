@@ -3,3 +3,4 @@
 
     @livewire('pengajuan-proposal.table-proposal')
 </div>
+
