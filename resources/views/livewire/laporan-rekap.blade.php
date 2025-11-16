@@ -53,15 +53,15 @@
                 </button>
 
                 <!-- Tombol PDF -->
-                <button wire:click="exportPdf"
+                <button wire:click="exportdataPdf"
                     class="flex items-center gap-2 h-10 px-4 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed"
-                    wire:loading.attr="disabled" wire:target="exportPdf">
+                    wire:loading.attr="disabled" wire:target="exportdataPdf">
 
                     <!-- Icon normal -->
-                    <i class="fa-solid fa-file-pdf" wire:loading.remove wire:target="exportPdf"></i>
+                    <i class="fa-solid fa-file-pdf" wire:loading.remove wire:target="exportdataPdf"></i>
 
                     <!-- Loading spinner -->
-                    <svg class="animate-spin h-4 w-4 text-white" wire:loading wire:target="exportPdf"
+                    <svg class="animate-spin h-4 w-4 text-white" wire:loading wire:target="exportdataPdf"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
                             stroke-width="4"></circle>
@@ -71,10 +71,10 @@
                     </svg>
 
                     <!-- Text normal -->
-                    <span wire:loading.remove wire:target="exportPdf">PDF</span>
+                    <span wire:loading.remove wire:target="exportdataPdf">PDF</span>
 
                     <!-- Text loading -->
-                    <span wire:loading wire:target="exportPdf">Mengekspor...</span>
+                    <span wire:loading wire:target="exportdataPdf">Mengekspor...</span>
                 </button>
             </div>
         </div>

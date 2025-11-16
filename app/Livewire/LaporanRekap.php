@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Livewire\Component;
 use App\Exports\RekapExport;
 use Livewire\WithPagination;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -19,6 +20,50 @@ class LaporanRekap extends Component
     public function mount()
     {
         $this->tahun = Carbon::now()->year;
+    }
+
+    public function exportdataPdf()
+    {
+        $data = DB::table('lembagas')
+            ->join('proposals', 'lembagas.id', '=', 'proposals.lembaga_id')
+            ->join('pelaksanaans', 'proposals.id', '=', 'pelaksanaans.proposal_id')
+            ->join('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
+            ->select(
+                'lembagas.nama_lembaga',
+                'proposals.nama_kegiatan',
+                'pelaksanaans.tanggal_mulai',
+                'pelaksanaans.tanggal_selesai',
+                'proposals.dana_diajukan',
+                'proposals.dana_disetujui',
+                'pelaksanaans.status as status_pelaksanaan',
+                'lpjs.status_lpj'
+            )
+            ->whereYear('pelaksanaans.tanggal_mulai', $this->tahun)
+            ->where('proposals.dana_disetujui', '>', 0)
+            ->orderBy('pelaksanaans.tanggal_mulai', 'desc')
+            ->get();
+
+        $pdfData = [
+            'tahun' => $this->tahun,
+            'rekaptulasi' => $data,
+            'tanggal_cetak' => now()->format('d/m/Y H:i:s'),
+            'total_kegiatan' => $data->count(),
+            'total_dana_diajukan' => $data->sum('dana_diajukan'),
+            'total_dana_disetujui' => $data->sum('dana_disetujui'),
+        ];
+
+        $pdf = Pdf::loadView('pdf.laporan-rekap', $pdfData)
+            ->setPaper('a4', 'landscape')
+            ->setOption('margin-top', 10)
+            ->setOption('margin-bottom', 10)
+            ->setOption('margin-left', 10)
+            ->setOption('margin-right', 10);
+
+        $fileName = 'Laporan_Rekapitulasi_' . $this->tahun . '_' . now()->format('YmdHis') . '.pdf';
+
+        return response()->streamDownload(function () use ($pdf) {
+            echo $pdf->output();
+        }, $fileName);
     }
 
     public function exportdataExcel()
