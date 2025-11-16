@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <form wire:submit.prevent="{{ $func }}" class="space-y-6">
+    <form wire:submit.prevent="{{ $pelaksanaan_id ? 'update' : 'create' }}" class="space-y-6">
         <!-- Grid untuk form fields -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Pilih Proposal -->
@@ -158,8 +158,8 @@
             <button type="submit"
                 class="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all duration-200 font-medium shadow-md flex items-center justify-center order-1 sm:order-2">
                 <i class="fas fa-save mr-2"></i>
-                <span wire:loading.remove wire:target="save">Simpan Pelaksanaan</span>
-                <span wire:loading wire:target="save">Menyimpan...</span>
+                <span wire:loading.remove wire:target="{{ $pelaksanaan_id ? 'update' : 'create' }}">Simpan Pelaksanaan</span>
+                <span wire:loading wire:target="{{ $pelaksanaan_id ? 'update' : 'create' }}">Menyimpan...</span>
             </button>
         </div>
     </form>

@@ -1,7 +1,10 @@
 <!-- Form Pengajuan Proposal Baru -->
 <div class="bg-white rounded-lg shadow p-6 mb-8">
-    <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ $title }}</h2>
-    <form wire:submit.prevent="{{ $func }}">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+        {{ $proposal_id ? 'Edit Pengajuan Proposal' : 'Tambah Pengajuan Proposal' }}
+    </h2>
+
+    <form wire:submit.prevent='{{ $proposal_id ? 'update' : 'create' }}'>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <!-- Pilih Lembaga -->
@@ -80,16 +83,16 @@
             </a>
 
             <!-- Tombol Submit -->
-            <button type="submit" wire:loading.attr="disabled" wire:target="create"
+            <button type="submit" wire:loading.attr="disabled" wire:target="{{ $proposal_id ? 'update' : 'create' }}"
                 class="relative w-48 px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
 
                 <!-- Teks normal (muncul saat tidak loading) -->
-                <span wire:loading.remove wire:target="{{$func}}">
-                    {{ $titleButton }}
+                <span wire:loading.remove wire:target="{{ $proposal_id ? 'update' : 'create' }}">
+                    {{ $proposal_id ? 'update' : 'create' }}
                 </span>
 
                 <!-- Teks dan animasi saat loading -->
-                <span wire:loading wire:target="{{$func}}" class="flex items-center justify-center gap-2">
+                <span wire:loading wire:target="{{ $proposal_id ? 'update' : 'create' }}" class="flex items-center justify-center gap-2">
                     memproses...
                 </span>
             </button>

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class FormKegiatan extends Component
 {
     public $proposal_id, $tanggal_mulai, $tanggal_selesai, $tenggat_lpj, $lokasi, $penanggung_jawab, $status = 'belum_dimulai', $keterangan;
-    public $pelaksanaan_id, $func;
+    public $pelaksanaan_id;
 
     protected function rules()
     {
@@ -100,8 +100,7 @@ class FormKegiatan extends Component
             'status' => $this->status,
             'keterangan' => $this->keterangan,
         ]);
-
-        $this->reset(['proposal_id', 'tanggal_mulai', 'tanggal_selesai', 'tenggat_lpj', 'lokasi', 'penanggung_jawab', 'status', 'keterangan']);
+        
         $this->dispatch('success', message: "Pelaksanaan Kegiatan Berhasil Diupdate");
 
     }
@@ -112,7 +111,6 @@ class FormKegiatan extends Component
             $pelaksanaan = DB::table('pelaksanaans')->find($id);
 
             if ($pelaksanaan) {
-                $this->func = 'update';
                 $this->pelaksanaan_id = $id;
                 $this->proposal_id = $pelaksanaan->proposal_id;
                 $this->tanggal_mulai = $pelaksanaan->tanggal_mulai;
@@ -123,8 +121,6 @@ class FormKegiatan extends Component
                 $this->status = $pelaksanaan->status;
                 $this->keterangan = $pelaksanaan->keterangan;
             }
-        } else {
-              $this->func = 'create';
         }
     }
 

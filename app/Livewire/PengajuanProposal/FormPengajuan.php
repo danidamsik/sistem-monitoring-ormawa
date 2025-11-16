@@ -8,7 +8,6 @@ use Carbon\Carbon;
 
 class FormPengajuan extends Component
 {
-    public $title, $titleButton, $func;
     public $lembaga_id, $nama_kegiatan, $tanggal_diterima, $dana_diajukan, $dana_disetujui;
     public $proposal_id; 
 
@@ -78,12 +77,8 @@ class FormPengajuan extends Component
         $this->dispatch('success', message: "Proposal berhasil diperbarui!");
     }
 
-    public function mount($id = null, $title = 'Tambah Proposal', $titleButton = 'Simpan', $func)
+    public function mount($id = null)
     {
-        $this->title = $title;
-        $this->func = $func;
-        $this->titleButton = $titleButton;
-
         if ($id) {
             $proposal = DB::table('proposals')->find($id);
             if ($proposal) {

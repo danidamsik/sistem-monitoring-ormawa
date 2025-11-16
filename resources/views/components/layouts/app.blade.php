@@ -22,16 +22,16 @@
     <div class="flex h-screen overflow-hidden">
         
         <!-- Sidebar Component -->
-        <x-layouts.sidebar />
+        <x-sidebar />
 
         <!-- Overlay for mobile -->
-        <x-layouts.mobile-overlay />
+        <x-mobile-overlay />
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col overflow-hidden">
             
             <!-- Header Component -->
-            <x-layouts.header />
+            <x-header />
 
             <!-- Main Content -->
             <main class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-6">
@@ -39,10 +39,10 @@
             </main>
 
             <!-- Notification Component -->
-            <x-layouts.notification />
+            <x-notification />
 
             <!-- Footer Component -->
-            <x-layouts.footer />
+            <x-footer />
         </div>
     </div>
 

@@ -67,7 +67,7 @@
                                 </a>
 
                                 <!-- Tombol Hapus -->
-                                <button @click="$wire.modal=true; $wire.lpjs_id = {{$lpj->id}}"
+                                <button @click="$wire.modal=true; $wire.lpj_id = {{$lpj->id}}"
                                     class="inline-flex items-center justify-center w-8 h-8 rounded-md text-red-500 hover:text-red-600 hover:bg-red-50 transition">
                                     <i class="fa-solid fa-trash text-sm"></i>
                                 </button>
