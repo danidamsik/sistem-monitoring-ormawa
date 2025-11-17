@@ -15,8 +15,8 @@
                 </h1>
                 <!-- Breadcrumb (Desktop) -->
                 <div class="hidden md:flex items-center space-x-2 text-sm text-gray-500 mt-1">
-                    <i class="fas fa-home text-xs"></i>
-                    <a href="/" class="hover:text-purple-600 transition">Home</a>
+                    {{-- <i class="fas fa-home text-xs"></i>
+                    <a href="/" class="hover:text-purple-600 transition">Home</a> --}}
 
                     <template x-for="(crumb, index) in breadcrumbs" :key="index">
                         <div class="flex items-center space-x-2">

@@ -40,7 +40,6 @@
 
             <!-- Notification Component -->
             <x-notification />
-
             <!-- Footer Component -->
             <x-footer />
         </div>
