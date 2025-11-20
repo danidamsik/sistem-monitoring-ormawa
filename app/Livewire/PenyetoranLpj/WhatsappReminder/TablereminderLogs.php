@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Livewire\PenyetoranLpj\WhatsappReminder;
+
+use Livewire\Component;
+use Illuminate\Support\Facades\DB;
+
+class TablereminderLogs extends Component
+{
+    public function getreminderLogs()
+    {
+        return DB::table('reminder_logs')->select(
+            'reminder_logs.id',
+            'proposals.nama_kegiatan',
+            'pelaksanaans.penanggung_jawab',
+            'reminder_logs.nomor_tujuan',
+            'reminder_logs.pesan',
+            'reminder_logs.created_at as tanggal_kirim',
+        )->join('pelaksanaans', 'reminder_logs.pelaksanaan_id', '=', 'pelaksanaans.id')
+            ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
+            ->get();
+    }
+    public function render()
+    {
+        return view('livewire.penyetoran-lpj.whatsapp-reminder.tablereminder-logs', ['reminderLogs' => $this->getreminderLogs()]);
+    }
+}

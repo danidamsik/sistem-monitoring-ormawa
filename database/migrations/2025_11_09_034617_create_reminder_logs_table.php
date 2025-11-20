@@ -16,8 +16,6 @@ return new class extends Migration
             $table->foreignId('pelaksanaan_id')->constrained('pelaksanaans')->cascadeOnDelete();
             $table->string('nomor_tujuan', 100);
             $table->text('pesan');
-            $table->timestamp('tanggal_kirim')->useCurrent();
-            $table->enum('status', ['Berhasil', 'Gagal'])->default('Berhasil');
             $table->timestamps();
         });
     }
