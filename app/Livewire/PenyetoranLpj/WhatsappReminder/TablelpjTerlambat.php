@@ -9,8 +9,6 @@ use Livewire\WithPagination;
 class TablelpjTerlambat extends Component
 {
     use WithPagination;
-
-    protected $paginationTheme = 'tailwind';
     
     public function getlpjTerlambat()
     {

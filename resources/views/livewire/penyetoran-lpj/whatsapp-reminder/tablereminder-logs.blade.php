@@ -1,4 +1,4 @@
-<div class="bg-white rounded-xl shadow-md overflow-hidden p-6">
+<div class="bg-white rounded-xl shadow-md overflow-hidden p-4">
     <div class="px-6 py-4 border-b border-gray-200">
         <h2 class="text-xl font-semibold text-gray-800">Reminder Logs</h2>
         <p class="text-gray-600 text-sm mt-1">Daftar log pengingat yang telah dikirim</p>
@@ -33,13 +33,15 @@
                             <div class="text-sm font-medium text-gray-900">{{ $items->nama_kegiatan }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{$items->penanggung_jawab}}</div>
+                            <div class="text-sm text-gray-900">{{ $items->penanggung_jawab }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{$items->nomor_tujuan}}</div>
+                            <div class="text-sm text-gray-900">{{ $items->nomor_tujuan }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $items->tanggal_kirim }}</div>
+                            <div class="text-sm text-gray-900">
+                                {{ \Carbon\Carbon::parse($items->tanggal_kirim)->translatedFormat('d F Y') }}
+                            </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
@@ -55,7 +57,7 @@
                             </div>
                         </td>
                     </tr>
-                    @empty
+                @empty
                     <tr>
                         <td colspan="8" class="px-4 py-8 text-center text-gray-500">
                             <i class="fas fa-inbox text-4xl mb-2"></i>
@@ -66,7 +68,7 @@
             </tbody>
         </table>
     </div>
-     <div class="mt-4">
-        {{ $reminderLogs->links() }}
+    <div class="mt-4">
+         {{ $reminderLogs->links('vendor.pagination.simple-tailwind') }}
     </div>
 </div>

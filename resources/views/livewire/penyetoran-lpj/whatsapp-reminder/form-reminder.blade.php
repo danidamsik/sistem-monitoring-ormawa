@@ -4,8 +4,8 @@
         <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-2xl font-bold text-white">Kirim Reminder Baru</h2>
-                    <p class="text-blue-100 mt-1">Isi form berikut untuk mengirim pengingat baru</p>
+                    <h2 class="text-2xl font-bold text-white">Kirim Reminder</h2>
+                    <p class="text-blue-100 mt-1">Isi form berikut untuk mengirim pengingat</p>
                 </div>
                 <div class="bg-white/20 p-3 rounded-xl">
                     <i class="fas fa-bell text-white text-2xl"></i>
@@ -24,9 +24,8 @@
                         <span class="text-xs font-normal text-gray-400 ml-1">(Otomatis terisi)</span>
                     </label>
                     <div class="relative">
-                        <input disabled type="text" id="penanggung-jawab"
-                            class="w-full px-4 py-3 pl-11 border border-gray-200 rounded-xl bg-gray-50 text-gray-600 shadow-inner cursor-not-allowed"
-                            placeholder="Nama penanggung jawab">
+                        <input disabled wire:model="nama_kegiatan" type="text" id="penanggung-jawab"
+                            class="w-full px-4 py-3 pl-11 border border-gray-200 rounded-xl bg-gray-50 text-gray-600 shadow-inner cursor-not-allowed">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-clipboard-list text-gray-400"></i>
                         </div>
@@ -43,7 +42,7 @@
                     <div class="relative">
                         <input disabled type="text" id="penanggung-jawab"
                             class="w-full px-4 py-3 pl-11 border border-gray-200 rounded-xl bg-gray-50 text-gray-600 shadow-inner cursor-not-allowed"
-                            placeholder="Nama penanggung jawab">
+                            wire:model="penanggung_jawab">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-user-tie text-gray-400"></i>
                         </div>
@@ -57,9 +56,9 @@
                         Nomor Tujuan
                     </label>
                     <div class="relative">
-                        <input type="tel" id="nomor-tujuan"
+                        <input disabled type="tel" id="nomor-tujuan"
                             class="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm"
-                            placeholder="Contoh: +62 812-3456-7890">
+                            wire:model="nomor_tujuan">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-mobile-alt text-gray-400"></i>
                         </div>
@@ -82,20 +81,21 @@
                     </div>
                 </div>
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-4 pt-6">
+                <div class="flex flex-col justify-end sm:flex-row gap-4 pt-6">
+                    <a href="/penyetoran-lpj/reminder-whatsapp" wire:navigate
+                        class="border-2 border-gray-300 text-gray-700 py-2 px-5 rounded-lg text-sm font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 flex items-center justify-center group w-fit">
+                        <i class="fas fa-redo mr-2 group-hover:rotate-180 transition-transform duration-200"></i>
+                        Kembali
+                    </a>
                     <button type="submit"
-                        class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group">
-                        <i class="fas fa-paper-plane mr-3 group-hover:scale-110 transition-transform duration-200"></i>
+                        class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-5 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group w-fit">
+                        <i class="fas fa-paper-plane mr-2 group-hover:scale-110 transition-transform duration-200"></i>
                         Kirim Reminder
                         <i
-                            class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform duration-200"></i>
-                    </button>
-                    <button type="reset"
-                        class="flex-1 border-2 border-gray-300 text-gray-700 py-4 px-6 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 flex items-center justify-center group">
-                        <i class="fas fa-redo mr-3 group-hover:rotate-180 transition-transform duration-200"></i>
-                        Kembali
+                            class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform duration-200"></i>
                     </button>
                 </div>
+
             </form>
         </div>
     </div>
