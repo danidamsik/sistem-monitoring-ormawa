@@ -11,14 +11,8 @@ class ReminderLog extends Model
 
     protected $fillable = [
         'pelaksanaan_id',
-        'email_tujuan',
+        'nomor_tujuan',
         'pesan',
-        'tanggal_kirim',
-        'status',
-    ];
-
-    protected $casts = [
-        'tanggal_kirim' => 'datetime',
     ];
 
     // Relasi: ReminderLog dimiliki oleh satu Pelaksanaan

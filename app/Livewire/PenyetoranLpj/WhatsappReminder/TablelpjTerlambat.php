@@ -9,18 +9,62 @@ use Livewire\WithPagination;
 class TablelpjTerlambat extends Component
 {
     use WithPagination;
-    
+
+    public $search = '';
+    public $lembagaFilter = '';
+
+    protected $updatesQueryString = ['search', 'lembagaFilter'];
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedLembagaFilter()
+    {
+        $this->resetPage();
+    }
+
     public function getlpjTerlambat()
     {
         return Pelaksanaan::whereHas('lpj', function ($query) {
-            $query->where('status_lpj', 'Belum Disetor');
-        })
+                $query->where('status_lpj', 'Belum Disetor');
+            })
             ->where('tanggal_selesai', '<=', now()->subWeek())
+            ->when($this->search, function ($q) {
+                $q->whereHas('proposal', function ($p) {
+                    $p->where('nama_kegiatan', 'like', "%{$this->search}%")
+                        ->orWhereHas('lembaga', function ($l) {
+                            $l->where('nama_lembaga', 'like', "%{$this->search}%");
+                        });
+                });
+            })
+            ->when($this->lembagaFilter, function ($q) {
+                $q->whereHas('proposal.lembaga', function ($l) {
+                    $l->where('id', $this->lembagaFilter);
+                });
+            })
             ->with(['lpj', 'proposal.lembaga'])
             ->paginate(10);
     }
+
+    public function getLembagaList()
+    {
+        return Pelaksanaan::whereHas('lpj', function ($query) {
+                $query->where('status_lpj', 'Belum Disetor');
+            })
+            ->where('tanggal_selesai', '<=', now()->subWeek())
+            ->with('proposal.lembaga')
+            ->get()
+            ->pluck('proposal.lembaga')
+            ->unique('id'); 
+    }
+
     public function render()
     {
-        return view('livewire.penyetoran-lpj.whatsapp-reminder.tablelpj-terlambat', ['lpjTerlambat' => $this->getlpjTerlambat()]);
+        return view('livewire.penyetoran-lpj.whatsapp-reminder.tablelpj-terlambat', [
+            'lpjTerlambat' => $this->getlpjTerlambat(),
+            'lembagaList'  => $this->getLembagaList(),
+        ]);
     }
 }

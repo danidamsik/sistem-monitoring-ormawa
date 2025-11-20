@@ -11,9 +11,10 @@
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <i class="fas fa-search text-gray-400"></i>
                 </div>
-                <input type="text"
+                <input type="text" wire:model.live="search"
                     class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    placeholder="Cari reminder logs...">
+                    placeholder="Cari nama kegiatan atau penanggung jawab...">
+
             </div>
         </div>
     </div>
@@ -68,12 +69,6 @@
                             <div class="flex space-x-2">
                                 <button class="text-blue-600 hover:text-blue-900 transition-colors" title="Detail">
                                     <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="text-green-600 hover:text-green-900 transition-colors" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="text-red-600 hover:text-red-900 transition-colors" title="Hapus">
-                                    <i class="fas fa-trash"></i>
                                 </button>
                             </div>
                         </td>

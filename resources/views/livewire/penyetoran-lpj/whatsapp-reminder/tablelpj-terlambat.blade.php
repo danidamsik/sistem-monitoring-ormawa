@@ -50,17 +50,16 @@
 
                     <select wire:model.live="lembagaFilter"
                         class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 bg-gray-50
-                   focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
+           focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all">
                         <option value="">Semua Lembaga</option>
 
-                        @foreach ($lpjTerlambat as $l)
-                            <option value="{{ $l->id }}">{{ $l->proposal->lembaga->nama_lembaga }}</option>
+                        @foreach ($lembagaList as $l)
+                            <option value="{{ $l->id }}">{{ $l->nama_lembaga }}</option>
                         @endforeach
                     </select>
+
                 </div>
             </div>
-
-
         </div>
     </div>
 

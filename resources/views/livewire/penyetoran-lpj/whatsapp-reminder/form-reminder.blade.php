@@ -72,7 +72,7 @@
                         Pesan
                     </label>
                     <div class="relative">
-                        <textarea id="pesan" rows="5"
+                        <textarea id="pesan" rows="5" wire:model="pesan"
                             class="w-full px-4 py-3 pl-11 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white shadow-sm resize-none"
                             placeholder="Tulis pesan reminder yang akan dikirim..."></textarea>
                         <div class="absolute top-3 left-3 flex items-start pointer-events-none">
@@ -87,13 +87,24 @@
                         <i class="fas fa-redo mr-2 group-hover:rotate-180 transition-transform duration-200"></i>
                         Kembali
                     </a>
-                    <button type="submit"
+                    <button type="button" wire:click="send" wire:loading.attr="disabled"
                         class="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-5 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center group w-fit">
-                        <i class="fas fa-paper-plane mr-2 group-hover:scale-110 transition-transform duration-200"></i>
-                        Kirim Reminder
-                        <i
-                            class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform duration-200"></i>
+
+                        <!-- Normal Text -->
+                        <span wire:loading.remove wire:target="send" class="flex items-center">
+                            <i
+                                class="fas fa-paper-plane mr-2 group-hover:scale-110 transition-transform duration-200"></i>
+                            Kirim Reminder
+                            <i
+                                class="fas fa-arrow-right ml-1 group-hover:translate-x-1 transition-transform duration-200"></i>
+                        </span>
+
+                        <!-- Loading Text -->
+                        <span wire:loading wire:target="send" class="flex items-center">
+                            Mengirim...
+                        </span>
                     </button>
+
                 </div>
 
             </form>
