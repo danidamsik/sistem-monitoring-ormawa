@@ -4,9 +4,14 @@ namespace App\Livewire\PenyetoranLpj\WhatsappReminder;
 
 use Livewire\Component;
 use App\Models\Pelaksanaan;
+use Livewire\WithPagination;
 
 class TablelpjTerlambat extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'tailwind';
+    
     public function getlpjTerlambat()
     {
         return Pelaksanaan::whereHas('lpj', function ($query) {
@@ -14,10 +19,10 @@ class TablelpjTerlambat extends Component
         })
             ->where('tanggal_selesai', '<=', now()->subWeek())
             ->with(['lpj', 'proposal.lembaga'])
-            ->get();
+            ->paginate(10);
     }
     public function render()
     {
-        return view('livewire.penyetoran-lpj.whatsapp-reminder.tablelpj-terlambat');
+        return view('livewire.penyetoran-lpj.whatsapp-reminder.tablelpj-terlambat', ['lpjTerlambat' => $this->getlpjTerlambat()]);
     }
 }

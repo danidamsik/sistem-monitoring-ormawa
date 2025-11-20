@@ -6,12 +6,22 @@
             Daftar LPJ
         </h2>
 
-        <a href="/penyetoran-lpj/tambah" wire:navigate
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 shadow transition-all duration-200">
-            <i class="fa-solid fa-plus"></i>
-            <span>Setor LPJ</span>
-        </a>
+        <!-- Tombol kanan dibungkus agar rapi -->
+        <div class="flex items-center gap-3">
+            <a href="/penyetoran-lpj/reminder-whatsapp" wire:navigate
+                class="min-w-[150px] text-center bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 shadow transition-all duration-200">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>Reminder WhatsApp</span>
+            </a>
+
+            <a href="/penyetoran-lpj/tambah" wire:navigate
+                class="min-w-[150px] text-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 shadow transition-all duration-200">
+                <i class="fa-solid fa-plus"></i>
+                <span>Setor LPJ</span>
+            </a>
+        </div>
     </div>
+
 
     <!-- Table -->
     <div class="overflow-x-auto rounded-lg border border-gray-200">
@@ -67,7 +77,7 @@
                                 </a>
 
                                 <!-- Tombol Hapus -->
-                                <button @click="$wire.modal=true; $wire.lpj_id = {{$lpj->id}}"
+                                <button @click="$wire.modal=true; $wire.lpj_id = {{ $lpj->id }}"
                                     class="inline-flex items-center justify-center w-8 h-8 rounded-md text-red-500 hover:text-red-600 hover:bg-red-50 transition">
                                     <i class="fa-solid fa-trash text-sm"></i>
                                 </button>

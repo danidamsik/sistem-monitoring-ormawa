@@ -6,6 +6,7 @@ use App\Livewire\Kegiatan;
 use App\Livewire\Proposal;
 use App\Livewire\Dashboard;
 use App\Livewire\MasterData;
+use App\Livewire\ReminderWa;
 use App\Livewire\LaporanRekap;
 use App\Livewire\PenyetoranLpj;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\PenyetoranLpj\FormLpj;
 use App\Livewire\PengajuanProposal\FormPengajuan;
 use App\Livewire\PelaksanaanKegiatan\FormKegiatan;
+use App\Livewire\PenyetoranLpj\WhatsappReminder\FormReminder;
 
 Route::middleware('auth')->group(function () {
 
@@ -34,6 +36,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/master-data/lembaga', MasterData::class);
     Route::get('/master-data/user', User::class);
+
+    Route::get("/penyetoran-lpj/reminder-whatsapp", ReminderWa::class);
+
+    Route::get("/penyetoran-lpj/reminder-whatsapp/send-messege", FormReminder::class);
 
     Route::get('/logout', function () {
         Auth::logout();

@@ -18,7 +18,7 @@ class TablereminderLogs extends Component
             'reminder_logs.created_at as tanggal_kirim',
         )->join('pelaksanaans', 'reminder_logs.pelaksanaan_id', '=', 'pelaksanaans.id')
             ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
-            ->get();
+            ->paginate(10);
     }
     public function render()
     {
