@@ -83,7 +83,7 @@
 
     {{-- Pagination --}}
     <div class="mt-4">
-        {{ $pelaksanaans->links() }}
+         {{ $pelaksanaans->links('vendor.pagination.simple-tailwind') }}
     </div>
 
     @include('components.modal-konfirmasi')

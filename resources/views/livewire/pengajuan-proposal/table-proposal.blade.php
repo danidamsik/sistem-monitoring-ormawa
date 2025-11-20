@@ -100,7 +100,7 @@
     </div>
 
     <div class="mt-4">
-        {{ $proposals->links() }}
+         {{ $proposals->links('vendor.pagination.simple-tailwind') }}
     </div>
 
     @include('components.modal-konfirmasi')

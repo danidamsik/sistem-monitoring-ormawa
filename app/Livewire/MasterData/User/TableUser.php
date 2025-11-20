@@ -17,8 +17,6 @@ class TableUser extends Component
     public $sortDirection = 'asc';
     public $id, $modal=false;
 
-    protected $paginationTheme = 'tailwind';
-
     public function updatingSearch()
     {
         $this->resetPage();

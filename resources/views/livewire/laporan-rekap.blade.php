@@ -144,7 +144,7 @@
             </table>
         </div>
         <div class="mt-4">
-            {{ $rekaptulasi->links() }}
-        </div>
+         {{ $rekaptulasi->links('vendor.pagination.simple-tailwind') }}
+    </div>
     </div>
 </div>

@@ -17,8 +17,6 @@ class TableProposal extends Component
     public $proposal_id;
     public $modal;
 
-    protected $paginationTheme = 'tailwind';
-
     public function updatingSearch()
     {
         $this->resetPage();
