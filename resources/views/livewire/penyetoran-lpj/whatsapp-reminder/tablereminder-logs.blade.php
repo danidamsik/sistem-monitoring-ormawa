@@ -4,10 +4,26 @@
         <p class="text-gray-600 text-sm mt-1">Daftar log pengingat yang telah dikirim</p>
     </div>
 
+    <!-- Search Input -->
+    <div class="px-6 py-4 border-b border-gray-200">
+        <div class="max-w-md">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text"
+                    class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    placeholder="Cari reminder logs...">
+            </div>
+        </div>
+    </div>
+
     <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama
                         Kegiatan</th>
@@ -29,6 +45,11 @@
 
                 @forelse($reminderLogs as $index => $items)
                     <tr class="hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">
+                                {{ ($reminderLogs->currentPage() - 1) * $reminderLogs->perPage() + $loop->iteration }}
+                            </div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">{{ $items->nama_kegiatan }}</div>
                         </td>
@@ -59,7 +80,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="px-4 py-8 text-center text-gray-500">
+                        <td colspan="6" class="px-4 py-8 text-center text-gray-500">
                             <i class="fas fa-inbox text-4xl mb-2"></i>
                             <p>Tidak ada data</p>
                         </td>
@@ -69,6 +90,6 @@
         </table>
     </div>
     <div class="mt-4">
-         {{ $reminderLogs->links('vendor.pagination.simple-tailwind') }}
+        {{ $reminderLogs->links('vendor.pagination.simple-tailwind') }}
     </div>
 </div>
