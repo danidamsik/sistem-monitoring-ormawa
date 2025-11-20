@@ -86,8 +86,8 @@
     </div>
 
     <!-- Pagination -->
-    <div class="mt-5">
-        {{ $listLpj->links('vendor.livewire.tailwind') }}
+    <div class="mt-4">
+         {{ $listLpj->links('vendor.pagination.simple-tailwind') }}
     </div>
 
     @include('components.modal-konfirmasi')

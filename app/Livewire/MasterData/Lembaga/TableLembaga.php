@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\DB;
 class TableLembaga extends Component
 {
     use WithPagination;
-    
-    protected $paginationTheme = 'tailwind';
+
     public $id, $modal;
 
     public function delete()

@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\DB;
 class TableKegiatan extends Component
 {
     use WithPagination;
-
-    protected $paginationTheme = 'tailwind';
     
     public $search = '';
     public $perPage = 10;

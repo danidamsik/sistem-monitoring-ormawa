@@ -158,10 +158,8 @@
     </div>
 
     <!-- Pagination -->
-    @if ($users->hasPages())
-        <div class="mt-6">
-            {{ $users->links() }}
-        </div>
-    @endif
+   <div class="mt-4">
+         {{ $users->links('vendor.pagination.simple-tailwind') }}
+    </div>
     @include('components.modal-konfirmasi')
 </div>

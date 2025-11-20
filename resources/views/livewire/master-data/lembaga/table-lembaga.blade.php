@@ -124,7 +124,7 @@
     </div>
 
     <div class="mt-4">
-        {{ $lembaga->links() }}
+         {{ $lembaga->links('vendor.pagination.simple-tailwind') }}
     </div>
 
     @include('components.modal-konfirmasi')
