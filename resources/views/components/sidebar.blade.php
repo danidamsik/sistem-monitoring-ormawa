@@ -60,7 +60,6 @@
             class="flex items-center py-3 px-4 rounded-lg transition duration-200 group relative">
             <i class="fas fa-calendar-check w-5 mr-3"></i>
             <span>Pelaksanaan Kegiatan</span>
-            <span class="ml-auto bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full badge">3</span>
         </a>
 
         <!-- Penyetoran LPJ -->
@@ -70,7 +69,6 @@
             class="flex items-center py-3 px-4 rounded-lg transition duration-200 group relative">
             <i class="fas fa-check-circle w-5 mr-3"></i>
             <span>Penyetoran LPJ</span>
-            <span class="ml-auto bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full badge">5</span>
         </a>
 
         <!-- Laporan & Rekap -->
