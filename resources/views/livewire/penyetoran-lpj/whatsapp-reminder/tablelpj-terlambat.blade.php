@@ -52,10 +52,6 @@
                     <tr class="hover:bg-red-50 transition-colors border-l-4 border-red-500">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
-                                <div
-                                    class="flex-shrink-0 h-10 w-10 bg-red-100 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-building text-red-600"></i>
-                                </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">
                                         {{ $pelaksanaan->proposal->lembaga->nama_lembaga }}</div>
@@ -67,7 +63,8 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $pelaksanaan->tanggal_selesai->format('d-m-Y') }}
+                            <div class="text-sm text-gray-900">
+                                {{ \Carbon\Carbon::parse($pelaksanaan->tanggal_selesai)->translatedFormat('d F Y') }}
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -81,11 +78,12 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                                <i class="fas fa-paper-plane mr-1"></i>
-                                Kirim Pesan
-                            </button>
+                            <a href="/penyetoran-lpj/reminder-whatsapp/send-messege/{{$pelaksanaan->id}}" wire:navigate>
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                    <i class="fas fa-paper-plane mr-1"></i>
+                                    Kirim Pesan
+                                </button>
+                            </a>
                         </td>
                     </tr>
                 @empty
@@ -101,6 +99,6 @@
         </table>
     </div>
     <div class="mt-4">
-        {{ $lpjTerlambat->links() }}
+         {{ $lpjTerlambat->links('vendor.pagination.simple-tailwind') }}
     </div>
 </div>

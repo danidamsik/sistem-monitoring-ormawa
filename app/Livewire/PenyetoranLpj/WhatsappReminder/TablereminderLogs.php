@@ -4,9 +4,12 @@ namespace App\Livewire\PenyetoranLpj\WhatsappReminder;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Livewire\WithPagination;
 
 class TablereminderLogs extends Component
 {
+    use WithPagination;
+    
     public function getreminderLogs()
     {
         return DB::table('reminder_logs')->select(

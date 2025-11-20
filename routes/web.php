@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get("/penyetoran-lpj/reminder-whatsapp", ReminderWa::class);
 
-    Route::get("/penyetoran-lpj/reminder-whatsapp/send-messege", FormReminder::class);
+    Route::get("/penyetoran-lpj/reminder-whatsapp/send-messege/{id}", FormReminder::class);
 
     Route::get('/logout', function () {
         Auth::logout();
