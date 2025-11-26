@@ -28,8 +28,12 @@ class TablelpjTerlambat extends Component
     public function getlpjTerlambat()
     {
         return Pelaksanaan::whereHas('lpj', function ($query) {
-                $query->where('status_lpj', 'Belum Disetor');
-            })
+            $query->where('status_lpj', 'Belum Disetor');
+        })
+            ->whereHas('proposal', function ($query) {
+                $query->whereNotNull('dana_disetujui')
+                    ->where('dana_disetujui', '>', 0);
+            })->where('status', '=', 'selesai')
             ->where('tanggal_selesai', '<=', now()->subWeek())
             ->when($this->search, function ($q) {
                 $q->whereHas('proposal', function ($p) {
@@ -51,13 +55,19 @@ class TablelpjTerlambat extends Component
     public function getLembagaList()
     {
         return Pelaksanaan::whereHas('lpj', function ($query) {
-                $query->where('status_lpj', 'Belum Disetor');
+            $query->where('status_lpj', 'Belum Disetor');
+        })
+            ->whereHas('proposal', function ($query) {
+                $query->whereNotNull('dana_disetujui')
+                    ->where('dana_disetujui', '>', 0);
             })
             ->where('tanggal_selesai', '<=', now()->subWeek())
             ->with('proposal.lembaga')
             ->get()
             ->pluck('proposal.lembaga')
-            ->unique('id'); 
+            ->filter() 
+            ->unique('id')
+            ->values(); 
     }
 
     public function render()

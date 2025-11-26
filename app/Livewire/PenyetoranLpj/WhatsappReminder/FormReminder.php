@@ -20,7 +20,7 @@ class FormReminder extends Component
         $this->penanggung_jawab = $pelaksanaan->penanggung_jawab;
         $nomor                  = $pelaksanaan->proposal->lembaga->nomor_hp;
         $this->nomor_tujuan     = $this->formatNomor($nomor);
-        $this->terlambat = Carbon::parse($pelaksanaan->tanggal_selesai)->diffInDays(Carbon::now());
+        $this->terlambat = Carbon::parse($pelaksanaan->tanggal_selesai->addWeek())->diffInDays(Carbon::now());
 
         $namaLembaga = $pelaksanaan->proposal->lembaga->nama_lembaga;
         $this->pesan =
@@ -74,7 +74,7 @@ class FormReminder extends Component
 
             $this->dispatch('success', message: "Pesan Berhasil Dikirim!");
         } else {
-            $this->dispatch('failed', message: "Pesan Gagal Dikirim!");
+            $this->dispatch('success', message: "Pesan Gagal Dikirim!");
         }
     }
 

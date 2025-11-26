@@ -27,16 +27,17 @@ class PendingLpj extends Component
                 'lpjs.id',
                 'proposals.nama_kegiatan',
                 'lembagas.nama_lembaga',
-                'pelaksanaans.tenggat_lpj',
+                'pelaksanaans.tanggal_selesai',
                 'lpjs.status_lpj'
             )
             ->where('lpjs.status_lpj', 'Belum Disetor')
-            ->whereNotNull('pelaksanaans.tenggat_lpj')
+            ->whereNotNull('proposals.dana_disetujui')->where('proposals.dana_disetujui', '>', 0)
+            ->where('pelaksanaans.status', 'selesai')
             ->orderBy('pelaksanaans.tenggat_lpj', 'asc')
             ->limit($this->limit)
             ->get()
             ->map(function ($lpj) use ($today) {
-                $tenggat = Carbon::parse($lpj->tenggat_lpj);
+                $tenggat = Carbon::parse($lpj->tanggal_selesai)->addWeek();
                 $daysRemaining = $today->diffInDays($tenggat, false);
 
                 // Hitung sisa waktu

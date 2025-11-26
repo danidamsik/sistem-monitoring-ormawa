@@ -29,6 +29,11 @@ class TablereminderLogs extends Component
         )
             ->join('pelaksanaans', 'reminder_logs.pelaksanaan_id', '=', 'pelaksanaans.id')
             ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
+            ->join('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
+            ->whereNotNull('proposals.dana_disetujui')
+            ->where('proposals.dana_disetujui', '>', 0)
+            ->where('pelaksanaans.status', '=', 'selesai')
+            ->where('lpjs.status_lpj', '=', 'Belum Disetor')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('proposals.nama_kegiatan', 'like', '%' . $this->search . '%')

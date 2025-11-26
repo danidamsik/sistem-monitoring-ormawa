@@ -20,20 +20,16 @@ class TopCard extends Component
 
     public function loadStatistics()
     {
-        // Total Proposal
         $this->totalProposal = DB::table('proposals')->count();
 
-        // Menunggu Persetujuan (dana_disetujui masih NULL)
         $this->menungguPersetujuan = DB::table('proposals')
             ->whereNull('dana_disetujui')
             ->count();
 
-        // Disetujui (dana_disetujui tidak NULL)
         $this->disetujui = DB::table('proposals')
             ->whereNotNull('dana_disetujui')->where('dana_disetujui', '>', 0)
             ->count();
 
-        // Total Dana Disetujui
         $totalDana = DB::table('proposals')
             ->whereNotNull('dana_disetujui')
             ->sum('dana_disetujui');

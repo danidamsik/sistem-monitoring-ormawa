@@ -4,6 +4,7 @@
      $wire.nama_lembaga = $event.detail.nama_lembaga;
      $wire.nomor_hp = $event.detail.nomor_hp;
      $wire.email = $event.detail.email;
+     console.log($event.detail)
       $nextTick(() => {
             document.getElementById('formLembaga')
                 .scrollIntoView({ behavior: 'smooth' });

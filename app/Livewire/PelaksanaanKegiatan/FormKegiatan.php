@@ -3,6 +3,7 @@
 namespace App\Livewire\PelaksanaanKegiatan;
 
 use Livewire\Component;
+use App\Models\Proposal;
 use Illuminate\Support\Facades\DB;
 
 class FormKegiatan extends Component
@@ -43,27 +44,31 @@ class FormKegiatan extends Component
 
     public function getProposal()
     {
-        $query = DB::table('proposals')
-            ->select(
+        if ($this->pelaksanaan_id)
+        {
+            return Proposal::select(
                 'proposals.id',
                 'proposals.nama_kegiatan',
                 'lembagas.nama_lembaga',
-                'proposals.dana_disetujui',
+                'proposals.dana_disetujui'
             )
-            ->join('lembagas', 'proposals.lembaga_id', '=', 'lembagas.id')
-            ->leftJoin('pelaksanaans', 'proposals.id', '=', 'pelaksanaans.proposal_id');
-
-        if ($this->pelaksanaan_id) {
-            $query->where('proposals.id', function ($sub) {
-                $sub->select('proposal_id')
-                    ->from('pelaksanaans')
-                    ->where('id', $this->pelaksanaan_id);
-            });
+            ->join('lembagas', 'lembagas.id', '=', 'proposals.lembaga_id')
+            ->join('pelaksanaans', 'pelaksanaans.proposal_id', '=', 'proposals.id')
+            ->where('proposals.dana_disetujui', '>', 0.00)
+            ->whereNotNull('proposals.dana_disetujui')
+            ->get();
         } else {
-            $query->whereNull('pelaksanaans.id');
+            return Proposal::select(
+                'proposals.id',
+                'proposals.nama_kegiatan',
+                'lembagas.nama_lembaga',
+                'proposals.dana_disetujui'
+            )
+            ->join('lembagas', 'lembagas.id', '=', 'proposals.lembaga_id')
+            ->leftJoin('pelaksanaans', 'pelaksanaans.proposal_id', '=', 'proposals.id')
+            ->whereNull('pelaksanaans.id') ->where('proposals.dana_disetujui', '>', 0.00)
+            ->get();
         }
-
-        return $query->get();
     }
 
     public function create()
@@ -88,21 +93,20 @@ class FormKegiatan extends Component
     public function update()
     {
         $this->validate($this->rules(), $this->messages());
-        
-        DB::table('pelaksanaans')->where('id', $this->pelaksanaan_id)
-        ->update([
-            'proposal_id' => $this->proposal_id,
-            'tanggal_mulai' => $this->tanggal_mulai,
-            'tanggal_selesai' => $this->tanggal_selesai,
-            'tenggat_lpj' => $this->tenggat_lpj,
-            'lokasi' => $this->lokasi,
-            'penanggung_jawab' => $this->penanggung_jawab,
-            'status' => $this->status,
-            'keterangan' => $this->keterangan,
-        ]);
-        
-        $this->dispatch('success', message: "Pelaksanaan Kegiatan Berhasil Diupdate");
 
+        DB::table('pelaksanaans')->where('id', $this->pelaksanaan_id)
+            ->update([
+                'proposal_id' => $this->proposal_id,
+                'tanggal_mulai' => $this->tanggal_mulai,
+                'tanggal_selesai' => $this->tanggal_selesai,
+                'tenggat_lpj' => $this->tenggat_lpj,
+                'lokasi' => $this->lokasi,
+                'penanggung_jawab' => $this->penanggung_jawab,
+                'status' => $this->status,
+                'keterangan' => $this->keterangan,
+            ]);
+
+        $this->dispatch('success', message: "Pelaksanaan Kegiatan Berhasil Diupdate");
     }
 
     public function mount($id = null)

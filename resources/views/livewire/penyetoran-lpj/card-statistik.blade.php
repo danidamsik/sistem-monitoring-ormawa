@@ -4,7 +4,7 @@
         <div>
             <p class="text-sm text-gray-500">Total LPJ Terdaftar</p>
             <h3 class="text-2xl font-bold text-gray-800">
-                {{ $statistik->total_terdaftar ?? 0 }}
+                {{ $total_lpj ?? 0 }}
             </h3>
         </div>
         <div class="p-3 bg-blue-100 text-blue-600 rounded-lg">
@@ -17,7 +17,7 @@
         <div>
             <p class="text-sm text-gray-500">Belum Disetor</p>
             <h3 class="text-2xl font-bold text-gray-800">
-                {{ $statistik->belum_disetor ?? 0 }}
+                {{ $belum_disetor ?? 0 }}
             </h3>
         </div>
         <div class="p-3 bg-yellow-100 text-yellow-600 rounded-lg">
@@ -30,7 +30,7 @@
         <div>
             <p class="text-sm text-gray-500">Menunggu Pemeriksaan</p>
             <h3 class="text-2xl font-bold text-gray-800">
-                {{ $statistik->menunggu_pemeriksaan ?? 0 }}
+                {{ $menunggu_pemeriksaan ?? 0 }}
             </h3>
         </div>
         <div class="p-3 bg-orange-100 text-orange-600 rounded-lg">
@@ -43,7 +43,7 @@
         <div>
             <p class="text-sm text-gray-500">Sudah Disetujui</p>
             <h3 class="text-2xl font-bold text-gray-800">
-                {{ $statistik->sudah_disetujui ?? 0 }}
+                {{ $sudah_disetujui ?? 0 }}
             </h3>
         </div>
         <div class="p-3 bg-green-100 text-green-600 rounded-lg">

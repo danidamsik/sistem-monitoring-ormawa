@@ -28,7 +28,7 @@
                         class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 appearance-none bg-white @error('proposal_id') border-red-500 @enderror">
                         <option value="">-- Pilih Proposal --</option>
                         @foreach ($proposals as $proposal)
-                            <option value="{{ $proposal->id }}">
+                            <option value="{{ $proposal->id }}" {{ isset($pelaksanaan_id) ? 'disabled' : '' }}>
                                 {{ $proposal->nama_kegiatan }} - {{ $proposal->nama_lembaga }}
                                 (Rp {{ number_format($proposal->dana_disetujui, 0, ',', '.') }})
                             </option>

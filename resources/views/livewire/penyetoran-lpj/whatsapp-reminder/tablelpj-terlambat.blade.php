@@ -93,6 +93,11 @@
                     </th>
                     <th scope="col"
                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <i class="fas fa-calendar-day mr-1"></i>
+                        Tenggat Lpj
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         <i class="fas fa-hourglass-end mr-1"></i>
                         Terlambat
                     </th>
@@ -131,8 +136,13 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">
+                                {{ \Carbon\Carbon::parse($pelaksanaan->tanggal_selesai->addWeek())->translatedFormat('d F Y') }}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             @php
-                                $terlambat = now()->diffInDays($pelaksanaan->tanggal_selesai);
+                                $terlambat = now()->diffInDays($pelaksanaan->tanggal_selesai->addWeek());
                             @endphp
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">

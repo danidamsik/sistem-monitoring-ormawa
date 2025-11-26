@@ -9,6 +9,7 @@ class ReminderLogFactory extends Factory
 {
     public function definition(): array
     {
+        
         return [
             'pelaksanaan_id' => Pelaksanaan::inRandomOrder()->value('id'),
             'nomor_tujuan' => '08' . $this->faker->numerify('##########'),

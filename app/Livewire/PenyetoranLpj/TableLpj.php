@@ -31,11 +31,11 @@ class TableLpj extends Component
                 'proposals.nama_kegiatan',
                 'lembagas.nama_lembaga',
                 'pelaksanaans.tanggal_selesai',
-                'pelaksanaans.tenggat_lpj',
                 'lpjs.tanggal_disetor',
                 'lpjs.status_lpj',
                 'lpjs.diperiksa_spi'
-            )
+            )->where('proposals.dana_disetujui', '>', 0.00)->whereNotNull('proposals.dana_disetujui')
+            ->where('pelaksanaans.status', '=', 'selesai')
             ->orderBy('lpjs.created_at', 'desc')
             ->paginate(10);
     }

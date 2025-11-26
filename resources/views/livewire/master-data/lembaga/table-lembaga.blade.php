@@ -78,11 +78,12 @@
                                 <!-- Edit -->
                                 <button
                                     @click="$dispatch('edit', {
-                                                id_lembaga: {{ $item->id }},
-                                                nama_lembaga: '{{ $item->nama_lembaga }}',
-                                                nomor_hp: '{{ $item->nomor_hp }}',
-                                                email: '{{ $item->email }}'
-                                            })" class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow transition-all hover:scale-105">
+                                            id_lembaga: {{ $item->id }},
+                                            nama_lembaga: '{{ $item->nama_lembaga }}',
+                                            nomor_hp: '{{ $item->nomor_hp }}',
+                                            email: '{{ $item->email }}'
+                                        })"
+                                    class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow transition-all hover:scale-105">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -124,7 +125,7 @@
     </div>
 
     <div class="mt-4">
-         {{ $lembaga->links('vendor.pagination.simple-tailwind') }}
+        {{ $lembaga->links('vendor.pagination.simple-tailwind') }}
     </div>
 
     @include('components.modal-konfirmasi')

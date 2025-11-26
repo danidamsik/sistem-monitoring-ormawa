@@ -47,9 +47,9 @@
                             {{ $loop->iteration + ($listLpj->currentPage() - 1) * $listLpj->perPage() }}</td>
                         <td class="px-4 py-3">{{ $lpj->nama_kegiatan }}</td>
                         <td class="px-4 py-3">{{ $lpj->nama_lembaga }}</td>
-                        <td class="px-4 py-3">{{ $lpj->tanggal_selesai }}</td>
-                        <td class="px-4 py-3">{{ $lpj->tenggat_lpj }}</td>
-                        <td class="px-4 py-3">{{ $lpj->tanggal_disetor ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($lpj->tanggal_selesai)->translatedFormat('d F Y') }}</td>
+                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($lpj->tanggal_selesai)->addWeek()->translatedFormat('d F Y') }}</td>
+                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($lpj->tanggal_disetor)->translatedFormat('d F Y') }}</td>
                         <td
                             class="px-4 py-3 font-semibold
                             {{ $lpj->status_lpj === 'Di Setujui'

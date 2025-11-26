@@ -43,8 +43,8 @@
                         <td class="px-4 py-3">{{ $pelaksanaans->firstItem() + $index }}</td>
                         <td class="px-4 py-3 font-medium text-gray-700">{{ $pelaksanaan->nama_kegiatan }}</td>
                         <td class="px-4 py-3">{{ $pelaksanaan->nama_lembaga }}</td>
-                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($pelaksanaan->tanggal_mulai)->format('d/m/Y') }}</td>
-                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($pelaksanaan->tanggal_selesai)->format('d/m/Y') }}</td>
+                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($pelaksanaan->tanggal_mulai)->translatedFormat('d F Y') }}</td>
+                        <td class="px-4 py-3">{{ \Carbon\Carbon::parse($pelaksanaan->tanggal_selesai)->translatedFormat('d F Y') }}</td>
                         <td class="px-4 py-3">{{ $pelaksanaan->lokasi ?? '-' }}</td>
                         <td class="px-4 py-3">
                             <span class="{{ $statusBadge['class'] }} text-xs font-semibold px-2 py-1 rounded-full">

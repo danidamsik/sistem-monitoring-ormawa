@@ -19,29 +19,28 @@ class Chart extends Component
     public function loadChartData()
     {
         $currentYear = Carbon::now()->year;
-        
-        // Array untuk menyimpan data per bulan (1-12)
+
         $monthlyData = array_fill(1, 12, 0);
-        
-        // Query untuk menghitung jumlah kegiatan per bulan berdasarkan tanggal_mulai pelaksanaan
+
         $activities = DB::table('pelaksanaans')
+            ->join('lpjs', 'lpjs.pelaksanaan_id', '=', 'pelaksanaans.id')
+            ->join('proposals', 'proposals.id', '=', 'pelaksanaans.proposal_id')
             ->select(
-                DB::raw('MONTH(tanggal_mulai) as month'),
+                DB::raw('MONTH(pelaksanaans.tanggal_mulai) as month'),
                 DB::raw('COUNT(*) as total')
             )
-            ->whereYear('tanggal_mulai', $currentYear)
-            ->groupBy(DB::raw('MONTH(tanggal_mulai)'))
+            ->whereYear('pelaksanaans.tanggal_mulai', $currentYear)
+            ->where('pelaksanaans.status', 'selesai')
+            ->whereNotNull('proposals.dana_disetujui')
+            ->where('proposals.dana_disetujui', '>', 0.00)
+            ->groupBy(DB::raw('MONTH(pelaksanaans.tanggal_mulai)'))
             ->get();
-        
-        // Isi data ke array bulan
+
         foreach ($activities as $activity) {
             $monthlyData[$activity->month] = $activity->total;
         }
-        
-        // Convert ke array values saja (index 1-12 menjadi 0-11)
+
         $this->chartData = array_values($monthlyData);
-        
-        // Labels bulan
         $this->chartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
     }
 

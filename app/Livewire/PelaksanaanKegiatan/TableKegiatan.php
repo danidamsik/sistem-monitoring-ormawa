@@ -37,7 +37,7 @@ class TableKegiatan extends Component
                 'pelaksanaans.penanggung_jawab',
                 'pelaksanaans.status',
                 'pelaksanaans.tenggat_lpj'
-            )
+            )->where('proposals.dana_disetujui', '>', 0.00)->whereNotNull('proposals.dana_disetujui')
             ->when($this->search, function ($query) {
                 $query->where(function ($q) {
                     $q->where('proposals.nama_kegiatan', 'like', '%' . $this->search . '%')

@@ -32,7 +32,9 @@ class FormLpj extends Component
             ->select('pelaksanaans.id', 'proposals.nama_kegiatan');
 
         if (is_null($this->id)) {
-            $query->whereNull('lpjs.pelaksanaan_id');
+            $query->whereNull('lpjs.pelaksanaan_id')
+            ->where('proposals.dana_disetujui', '>', 0.00)->whereNotNull('proposals.dana_disetujui')
+            ->where('pelaksanaans.status', 'selesai');
         }
         else {
             $query->whereNotNull('lpjs.pelaksanaan_id');

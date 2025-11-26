@@ -1,27 +1,33 @@
 <?php
 namespace App\Livewire\PenyetoranLpj;
 
+use App\Models\Lpj;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
 class CardStatistik extends Component
 {
-    public function getCardStatistik()
+    public $total_lpj, $belum_disetor, $menunggu_pemeriksaan, $sudah_disetujui;
+
+    public function mount()
     {
-        return DB::table('lpjs')
-            ->selectRaw("
-                COUNT(*) as total_terdaftar,
-                SUM(CASE WHEN status_lpj = 'Belum Disetor' THEN 1 ELSE 0 END) as belum_disetor,
-                SUM(CASE WHEN status_lpj = 'Menunggu Diperiksa' THEN 1 ELSE 0 END) as menunggu_pemeriksaan,
-                SUM(CASE WHEN status_lpj = 'Di Setujui' THEN 1 ELSE 0 END) as sudah_disetujui
-            ")
-            ->first();
+        $statistik = Lpj::join('pelaksanaans', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
+            ->join('proposals', 'proposals.id', '=', 'pelaksanaans.proposal_id')
+            ->whereNotNull('proposals.dana_disetujui')
+            ->where('proposals.dana_disetujui', '>', 0)
+            ->where('pelaksanaans.status', 'selesai')
+            ->select('lpjs.status_lpj', DB::raw('COUNT(*) as total'))
+            ->groupBy('lpjs.status_lpj')
+            ->pluck('total', 'status_lpj');
+
+        $this->total_lpj = $statistik->sum();
+        $this->belum_disetor = $statistik->get('Belum Disetor', 0);
+        $this->menunggu_pemeriksaan = $statistik->get('Menunggu Diperiksa', 0);
+        $this->sudah_disetujui = $statistik->get('Di Setujui', 0);
     }
-    
+
     public function render()
     {
-        return view('livewire.penyetoran-lpj.card-statistik', [
-            'statistik' => $this->getCardStatistik()
-        ]);
+        return view('livewire.penyetoran-lpj.card-statistik');
     }
 }

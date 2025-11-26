@@ -24,24 +24,7 @@ class LaporanRekap extends Component
 
     public function exportdataPdf()
     {
-        $data = DB::table('lembagas')
-            ->join('proposals', 'lembagas.id', '=', 'proposals.lembaga_id')
-            ->join('pelaksanaans', 'proposals.id', '=', 'pelaksanaans.proposal_id')
-            ->join('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
-            ->select(
-                'lembagas.nama_lembaga',
-                'proposals.nama_kegiatan',
-                'pelaksanaans.tanggal_mulai',
-                'pelaksanaans.tanggal_selesai',
-                'proposals.dana_diajukan',
-                'proposals.dana_disetujui',
-                'pelaksanaans.status as status_pelaksanaan',
-                'lpjs.status_lpj'
-            )
-            ->whereYear('pelaksanaans.tanggal_mulai', $this->tahun)
-            ->where('proposals.dana_disetujui', '>', 0)
-            ->orderBy('pelaksanaans.tanggal_mulai', 'desc')
-            ->get();
+        $data = $this->getdataRekaptulasi()->get();
 
         $pdfData = [
             'tahun' => $this->tahun,
@@ -75,7 +58,7 @@ class LaporanRekap extends Component
         }, $fileName);
     }
 
-    public function getRekaptulasi()
+    private function getdataRekaptulasi()
     {
         return DB::table('lembagas')
             ->join('proposals', 'lembagas.id', '=', 'proposals.lembaga_id')
@@ -92,9 +75,11 @@ class LaporanRekap extends Component
                 'lpjs.status_lpj'
             )
             ->whereYear('pelaksanaans.tanggal_mulai', $this->tahun)
-            ->where('proposals.dana_disetujui', '>', 0)
-            ->orderBy('pelaksanaans.tanggal_mulai', 'desc')
-            ->paginate(10);
+            ->where('proposals.dana_disetujui', '>', 0.00)
+            ->whereNotNull('proposals.dana_disetujui')
+            ->where('pelaksanaans.status', 'selesai')
+            ->where('lpjs.status_lpj', 'Di Setujui')
+            ->orderBy('pelaksanaans.tanggal_mulai', 'desc');
     }
 
     public function formatRupiah($nominal)
@@ -148,28 +133,10 @@ class LaporanRekap extends Component
         return $badges[$status] ?? $badges['Belum Disetor'];
     }
 
-    public function exportExcel()
-    {
-        // Implement Excel export logic
-        $this->dispatch('alert', [
-            'type' => 'success',
-            'message' => 'Export Excel untuk tahun ' . $this->tahun
-        ]);
-    }
-
-    public function exportPdf()
-    {
-        // Implement PDF export logic
-        $this->dispatch('alert', [
-            'type' => 'success',
-            'message' => 'Export PDF untuk tahun ' . $this->tahun
-        ]);
-    }
-
     public function render()
     {
         return view('livewire.laporan-rekap', [
-            'rekaptulasi' => $this->getRekaptulasi()
+            'rekaptulasi' => $this->getdataRekaptulasi()->paginate(10)
         ]);
     }
 }

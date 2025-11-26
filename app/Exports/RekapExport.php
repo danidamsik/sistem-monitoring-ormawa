@@ -28,7 +28,7 @@ class RekapExport implements FromCollection, WithHeadings, WithMapping, WithStyl
      */
     public function collection()
     {
-        return DB::table('lembagas')
+        return   DB::table('lembagas')
             ->join('proposals', 'lembagas.id', '=', 'proposals.lembaga_id')
             ->join('pelaksanaans', 'proposals.id', '=', 'pelaksanaans.proposal_id')
             ->join('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
@@ -43,9 +43,11 @@ class RekapExport implements FromCollection, WithHeadings, WithMapping, WithStyl
                 'lpjs.status_lpj'
             )
             ->whereYear('pelaksanaans.tanggal_mulai', $this->tahun)
-            ->where('proposals.dana_disetujui', '>', 0)
-            ->orderBy('pelaksanaans.tanggal_mulai', 'desc')
-            ->get();
+            ->where('proposals.dana_disetujui', '>', 0.00)
+            ->whereNotNull('proposals.dana_disetujui')
+            ->where('pelaksanaans.status', 'selesai')
+            ->where('lpjs.status_lpj', 'Di Setujui')
+            ->orderBy('pelaksanaans.tanggal_mulai', 'desc')->get();
     }
 
     /**
@@ -143,7 +145,7 @@ class RekapExport implements FromCollection, WithHeadings, WithMapping, WithStyl
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '2563EB'], 
+                'startColor' => ['rgb' => '2563EB'],
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
