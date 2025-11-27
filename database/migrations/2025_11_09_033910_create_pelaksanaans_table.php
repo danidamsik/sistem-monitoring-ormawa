@@ -16,10 +16,9 @@ return new class extends Migration
             $table->foreignId('proposal_id')->unique()->constrained('proposals')->cascadeOnDelete();
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
-            $table->date('tenggat_lpj')->nullable();
             $table->string('lokasi')->nullable();
             $table->string('penanggung_jawab')->nullable();
-            $table->enum('status', ['belum_dimulai','sedang_berlangsung','selesai'])->default('belum_dimulai');
+            $table->string('no_pj')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamps();
         });

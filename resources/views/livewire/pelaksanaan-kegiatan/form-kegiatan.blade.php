@@ -73,41 +73,26 @@
                 @enderror
             </div>
 
-            <!-- Tenggat LPJ -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                    <i class="fas fa-clock text-purple-500 mr-2"></i>Tenggat Penyetoran LPJ
-                </label>
-                <div class="relative">
-                    <input type="date" wire:model="tenggat_lpj"
-                        class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 @error('tenggat_lpj') border-red-500 @enderror">
-                </div>
-                @error('tenggat_lpj')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
             <!-- Status -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                    <i class="fas fa-tasks text-purple-500 mr-2"></i>Status Pelaksanaan <span
-                        class="text-red-500">*</span>
-                </label>
-                <div class="relative">
-                    <select wire:model="status"
-                        class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 appearance-none bg-white @error('status') border-red-500 @enderror">
-                        <option value="">-- Pilih Status --</option>
-                        <option value="belum_dimulai">Belum Dimulai</option>
-                        <option value="sedang_berlangsung">Sedang Berlangsung</option>
-                        <option value="selesai">Selesai</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
+            <div x-data="statusPelaksanaan()" class="md:col-span-2 flex items-center gap-4">
+                <!-- Label dan Badge Status -->
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-700">Status:</label>
+                    <span class="px-3 py-1 rounded-full text-sm"
+                        :class="{
+                            'bg-blue-100 text-blue-800': statusText === 'belum_dimulai',
+                            'bg-green-100 text-green-800': statusText === 'sedang_berlangsung',
+                            'bg-gray-100 text-gray-800': statusText === 'selesai'
+                        }"
+                        x-text="statusText.replace(/_/g, ' ')">
+                    </span>
                 </div>
-                @error('status')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
+
+                <!-- Label dan Info Hari -->
+                <div class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-700">Waktu:</label>
+                    <span class="text-sm text-gray-600" x-text="getDaysInfo()"></span>
+                </div>
             </div>
 
             <!-- Lokasi -->
@@ -123,13 +108,25 @@
             </div>
 
             <!-- Penanggung Jawab -->
-            <div class="md:col-span-2">
+            <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">
                     <i class="fas fa-user-tie text-purple-500 mr-2"></i>Penanggung Jawab
                 </label>
                 <input type="text" wire:model="penanggung_jawab" placeholder="Nama penanggung jawab kegiatan"
                     class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 @error('penanggung_jawab') border-red-500 @enderror">
                 @error('penanggung_jawab')
+                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Nomor Penanggung Jawab (BARU) -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-phone text-purple-500 mr-2"></i>Nomor Penanggung Jawab
+                </label>
+                <input type="text" wire:model="no_pj" placeholder="Contoh: 08123456789"
+                    class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 @error('no_pj') border-red-500 @enderror">
+                @error('no_pj')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
             </div>
@@ -158,9 +155,87 @@
             <button type="submit"
                 class="px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all duration-200 font-medium shadow-md flex items-center justify-center order-1 sm:order-2">
                 <i class="fas fa-save mr-2"></i>
-                <span wire:loading.remove wire:target="{{ $pelaksanaan_id ? 'update' : 'create' }}">Simpan Pelaksanaan</span>
+                <span wire:loading.remove wire:target="{{ $pelaksanaan_id ? 'update' : 'create' }}">Simpan
+                    Pelaksanaan</span>
                 <span wire:loading wire:target="{{ $pelaksanaan_id ? 'update' : 'create' }}">Menyimpan...</span>
             </button>
         </div>
     </form>
 </section>
+
+<script>
+    function statusPelaksanaan() {
+        return {
+            statusText: @entangle('status').live,
+            tanggalMulai: @entangle('tanggal_mulai').live,
+            tanggalSelesai: @entangle('tanggal_selesai').live,
+
+            init() {
+                this.updateStatus();
+
+                // Watch for date changes
+                this.$watch('tanggalMulai', () => this.updateStatus());
+                this.$watch('tanggalSelesai', () => this.updateStatus());
+            },
+
+            updateStatus() {
+                if (!this.tanggalMulai || !this.tanggalSelesai) {
+                    this.statusText = "";
+                    return;
+                }
+
+                const today = new Date().setHours(0, 0, 0, 0);
+                const start = new Date(this.tanggalMulai).setHours(0, 0, 0, 0);
+                const end = new Date(this.tanggalSelesai).setHours(0, 0, 0, 0);
+
+                // Validate dates
+                if (isNaN(start) || isNaN(end)) {
+                    this.statusText = "";
+                    return;
+                }
+
+                if (today < start) {
+                    this.statusText = "belum_dimulai";
+                } else if (today >= start && today <= end) {
+                    this.statusText = "sedang_berlangsung";
+                } else {
+                    this.statusText = "selesai";
+                }
+            },
+
+            // Helper method to get status badge color
+            getStatusColor() {
+                switch (this.statusText) {
+                    case "belum_dimulai":
+                        return "blue";
+                    case "sedang_berlangsung":
+                        return "green";
+                    case "selesai":
+                        return "gray";
+                    default:
+                        return "gray";
+                }
+            },
+
+            // Helper to get days remaining/elapsed
+            getDaysInfo() {
+                if (!this.tanggalMulai || !this.tanggalSelesai) return null;
+
+                const today = new Date().setHours(0, 0, 0, 0);
+                const start = new Date(this.tanggalMulai).setHours(0, 0, 0, 0);
+                const end = new Date(this.tanggalSelesai).setHours(0, 0, 0, 0);
+
+                if (today < start) {
+                    const days = Math.ceil((start - today) / (1000 * 60 * 60 * 24));
+                    return `${days} hari lagi`;
+                } else if (today <= end) {
+                    const days = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+                    return `${days} hari tersisa`;
+                } else {
+                    const days = Math.floor((today - end) / (1000 * 60 * 60 * 24));
+                    return `${days} hari lalu`;
+                }
+            }
+        }
+    }
+</script>

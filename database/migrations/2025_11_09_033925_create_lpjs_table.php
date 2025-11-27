@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('lpjs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pelaksanaan_id')->unique()->constrained('pelaksanaans')->cascadeOnDelete();
-            $table->enum('status_lpj', ['Belum Disetor','Menunggu Diperiksa','Di Setujui'])->default('Belum Disetor');
+            $table->enum('status_lpj', ['Belum Disetor','Di Setujui'])->default('Belum Disetor');
             $table->date('tanggal_disetor')->nullable();
-            $table->boolean('diperiksa_spi')->default(false);
             $table->text('catatan_spi')->nullable();
             $table->timestamps();
         });

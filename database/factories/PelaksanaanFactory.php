@@ -76,14 +76,22 @@ class PelaksanaanFactory extends Factory
             'Acara ditutup dengan sesi foto bersama.',
         ];
 
+         $nomor = [
+            '085210678501',
+            '085398481257',
+            '087776990696',
+            '082251702631',
+            '082398433625',
+            '082195924323'
+        ];
+
         return [
             'proposal_id'      => Proposal::inRandomOrder()->value('id'),
             'tanggal_mulai'    => $start,
             'tanggal_selesai'  => $end,
-            'tenggat_lpj'      => $this->faker->dateTimeBetween("$year-01-01", "$year-12-31"),
             'lokasi'           => $this->faker->randomElement($lokasiKegiatan),
             'penanggung_jawab' => $this->faker->randomElement($nama),
-            'status'           => $this->faker->randomElement(['belum_dimulai', 'sedang_berlangsung', 'selesai']),
+            'no_pj'            => $this->faker->randomElement($nomor),
             'keterangan'       => $this->faker->randomElement($keterangan),
         ];
     }

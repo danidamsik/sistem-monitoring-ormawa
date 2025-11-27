@@ -11,9 +11,8 @@ class LpjFactory extends Factory
     {
         return [
             'pelaksanaan_id' => Pelaksanaan::inRandomOrder()->value('id'),
-            'status_lpj'     => $this->faker->randomElement(['Belum Disetor','Menunggu Diperiksa','Di Setujui']),
+            'status_lpj'     => $this->faker->randomElement(['Belum Disetor','Di Setujui']),
             'tanggal_disetor'=> $this->faker->optional()->date(),
-            'diperiksa_spi'  => $this->faker->boolean(),
             'catatan_spi'    => $this->faker->optional()->sentence(),
         ];
     }

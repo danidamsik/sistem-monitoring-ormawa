@@ -2,17 +2,18 @@
 
 namespace App\Exports;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Concerns\WithTitle;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class RekapExport implements FromCollection, WithHeadings, WithMapping, WithStyles, WithColumnWidths, WithTitle
 {
@@ -28,7 +29,9 @@ class RekapExport implements FromCollection, WithHeadings, WithMapping, WithStyl
      */
     public function collection()
     {
-        return   DB::table('lembagas')
+        $today = Carbon::today()->toDateString();
+
+        return DB::table('lembagas')
             ->join('proposals', 'lembagas.id', '=', 'proposals.lembaga_id')
             ->join('pelaksanaans', 'proposals.id', '=', 'pelaksanaans.proposal_id')
             ->join('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
@@ -39,15 +42,19 @@ class RekapExport implements FromCollection, WithHeadings, WithMapping, WithStyl
                 'pelaksanaans.tanggal_selesai',
                 'proposals.dana_diajukan',
                 'proposals.dana_disetujui',
-                'pelaksanaans.status as status_pelaksanaan',
+                // ✅ Hitung status real-time
+                DB::raw("CASE 
+            WHEN pelaksanaans.tanggal_mulai > '{$today}' THEN 'belum_dimulai'
+            WHEN pelaksanaans.tanggal_mulai <= '{$today}' AND pelaksanaans.tanggal_selesai >= '{$today}' THEN 'sedang_berlangsung'
+            WHEN pelaksanaans.tanggal_selesai < '{$today}' THEN 'selesai'
+        END as status_pelaksanaan"),
                 'lpjs.status_lpj'
             )
             ->whereYear('pelaksanaans.tanggal_mulai', $this->tahun)
             ->where('proposals.dana_disetujui', '>', 0.00)
             ->whereNotNull('proposals.dana_disetujui')
-            ->where('pelaksanaans.status', 'selesai')
-            ->where('lpjs.status_lpj', 'Di Setujui')
-            ->orderBy('pelaksanaans.tanggal_mulai', 'desc')->get();
+            ->orderBy('pelaksanaans.tanggal_mulai', 'desc')
+            ->get();
     }
 
     /**

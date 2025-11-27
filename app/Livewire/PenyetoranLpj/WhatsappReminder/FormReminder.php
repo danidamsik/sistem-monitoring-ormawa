@@ -18,7 +18,7 @@ class FormReminder extends Component
         $this->pelaksanaan_id = $pelaksanaan->id;
         $this->nama_kegiatan    = $pelaksanaan->proposal->nama_kegiatan;
         $this->penanggung_jawab = $pelaksanaan->penanggung_jawab;
-        $nomor                  = $pelaksanaan->proposal->lembaga->nomor_hp;
+        $nomor                  = $pelaksanaan->no_pj;
         $this->nomor_tujuan     = $this->formatNomor($nomor);
         $this->terlambat = Carbon::parse($pelaksanaan->tanggal_selesai->addWeek())->diffInDays(Carbon::now());
 

@@ -36,12 +36,6 @@
                 placeholder="Tulis catatan pemeriksaan SPI di sini..."></textarea>
         </div>
 
-        <div class="flex items-center gap-3">
-            <input id="diperiksa_spi" type="checkbox" wire:model='diperiksa_spi'
-                class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-400">
-            <label for="diperiksa_spi" class="text-sm text-gray-700">Diperiksa SPI</label>
-        </div>
-
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Status LPJ</label>
             <select wire:model='status_lpj'

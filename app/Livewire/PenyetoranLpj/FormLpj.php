@@ -1,14 +1,14 @@
 <?php
-
 namespace App\Livewire\PenyetoranLpj;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class FormLpj extends Component
 {
-    public $id, $pelaksanaan_id, $status_lpj, $tanggal_disetor, $diperiksa_spi, $catatan_spi;
-
+    public $id, $pelaksanaan_id, $status_lpj, $tanggal_disetor, $catatan_spi;
+    
     public function mount($id = null)
     {
         if ($id) {
@@ -18,80 +18,84 @@ class FormLpj extends Component
                 $this->pelaksanaan_id = $lpj->pelaksanaan_id;
                 $this->status_lpj = $lpj->status_lpj;
                 $this->tanggal_disetor = $lpj->tanggal_disetor;
-                $this->diperiksa_spi = (bool) $lpj->diperiksa_spi;
                 $this->catatan_spi = $lpj->catatan_spi;
             }
         }
     }
-
+    
     public function getPelaksanaan()
     {
+        $today = Carbon::today()->toDateString();
+        
         $query = DB::table('pelaksanaans')
             ->leftJoin('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
             ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
             ->select('pelaksanaans.id', 'proposals.nama_kegiatan');
-
+        
         if (is_null($this->id)) {
+            // Mode Create - tampilkan pelaksanaan yang belum punya LPJ
             $query->whereNull('lpjs.pelaksanaan_id')
-            ->where('proposals.dana_disetujui', '>', 0.00)->whereNotNull('proposals.dana_disetujui')
-            ->where('pelaksanaans.status', 'selesai');
-        }
-        else {
+                ->where('proposals.dana_disetujui', '>', 0.00)
+                ->whereNotNull('proposals.dana_disetujui')
+                // ✅ Ganti kondisi status dengan logika tanggal
+                ->where('pelaksanaans.tanggal_selesai', '<', $today);
+        } else {
+            // Mode Edit - tampilkan pelaksanaan yang sudah punya LPJ
             $query->whereNotNull('lpjs.pelaksanaan_id');
         }
+        
         return $query->get();
     }
-
-
-
+    
     public function create()
     {
         $this->validate($this->rules(), $this->messages());
-
+        
         DB::table('lpjs')->insert([
             'pelaksanaan_id' => $this->pelaksanaan_id,
             'status_lpj' => $this->status_lpj,
             'tanggal_disetor' => $this->tanggal_disetor,
-            'diperiksa_spi' => $this->diperiksa_spi,
-            'catatan_spi' => $this->catatan_spi
+            'catatan_spi' => $this->catatan_spi,
+            'created_at' => now(), // ✅ Tambahkan timestamps
+            'updated_at' => now(),
         ]);
-
-        $this->reset(['pelaksanaan_id', 'status_lpj', 'tanggal_disetor', 'diperiksa_spi', 'catatan_spi']);
-        $this->dispatch('success', message: "Lpj Berhasil Ditambahkan!");
+        
+        $this->reset(['pelaksanaan_id', 'status_lpj', 'tanggal_disetor', 'catatan_spi']);
+        $this->dispatch('success', message: "LPJ Berhasil Ditambahkan!");
     }
-
+    
     public function update()
     {
         $this->validate($this->rules(), $this->messages());
-
+        
         DB::table('lpjs')->where('id', $this->id)
             ->update([
                 'pelaksanaan_id' => $this->pelaksanaan_id,
                 'status_lpj' => $this->status_lpj,
                 'tanggal_disetor' => $this->tanggal_disetor,
-                'diperiksa_spi' => $this->diperiksa_spi,
-                'catatan_spi' => $this->catatan_spi
+                'catatan_spi' => $this->catatan_spi,
             ]);
-
-        $this->dispatch('success', message: "Lpj Berhasil DiUpdate!");
+        
+        $this->dispatch('success', message: "LPJ Berhasil DiUpdate!");
     }
-
+    
     public function render()
     {
-        return view('livewire.penyetoran-lpj.form-lpj', ['pelaksanaan' => $this->getPelaksanaan()]);
+        return view('livewire.penyetoran-lpj.form-lpj', [
+            'pelaksanaan' => $this->getPelaksanaan()
+        ]);
     }
-
+    
     protected function rules()
     {
         return [
             'pelaksanaan_id' => 'required|exists:pelaksanaans,id',
             'status_lpj' => 'required|in:Belum Disetor,Menunggu Diperiksa,Di Setujui',
             'tanggal_disetor' => 'nullable|date',
-            'diperiksa_spi' => 'required|boolean',
             'catatan_spi' => 'nullable|string|max:1000',
         ];
     }
-
+    
     protected function messages()
     {
         return [
@@ -100,8 +104,6 @@ class FormLpj extends Component
             'status_lpj.required' => 'Status LPJ wajib diisi.',
             'status_lpj.in' => 'Status LPJ harus salah satu dari: Belum Disetor, Menunggu Diperiksa, atau Di Setujui.',
             'tanggal_disetor.date' => 'Tanggal setor harus berupa format tanggal yang valid.',
-            'diperiksa_spi.required' => 'Status pemeriksaan SPI wajib diisi.',
-            'diperiksa_spi.boolean' => 'Nilai pemeriksaan SPI harus berupa benar (1) atau salah (0).',
             'catatan_spi.string' => 'Catatan SPI harus berupa teks.',
             'catatan_spi.max' => 'Catatan SPI maksimal 1000 karakter.',
         ];

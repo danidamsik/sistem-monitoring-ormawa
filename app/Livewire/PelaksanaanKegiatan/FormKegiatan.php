@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class FormKegiatan extends Component
 {
-    public $proposal_id, $tanggal_mulai, $tanggal_selesai, $tenggat_lpj, $lokasi, $penanggung_jawab, $status = 'belum_dimulai', $keterangan;
+    public $proposal_id, $tanggal_mulai, $tanggal_selesai, $lokasi, $penanggung_jawab, $no_pj, $status, $keterangan;
     public $pelaksanaan_id;
 
     protected function rules()
@@ -17,7 +17,6 @@ class FormKegiatan extends Component
             'proposal_id' => 'required|exists:proposals,id',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-            'tenggat_lpj' => 'nullable|date|after_or_equal:tanggal_selesai',
             'lokasi' => 'nullable|string|max:255',
             'penanggung_jawab' => 'nullable|string|max:255',
             'status' => 'required|in:belum_dimulai,sedang_berlangsung,selesai',
@@ -35,8 +34,6 @@ class FormKegiatan extends Component
             'tanggal_selesai.required' => 'Tanggal selesai harus diisi',
             'tanggal_selesai.date' => 'Format tanggal selesai tidak valid',
             'tanggal_selesai.after_or_equal' => 'Tanggal selesai harus sama atau setelah tanggal mulai',
-            'tenggat_lpj.date' => 'Format tenggat LPJ tidak valid',
-            'tenggat_lpj.after_or_equal' => 'Tenggat LPJ harus sama atau setelah tanggal selesai',
             'status.required' => 'Status harus dipilih',
             'status.in' => 'Status tidak valid',
         ];
@@ -79,14 +76,13 @@ class FormKegiatan extends Component
             'proposal_id' => $this->proposal_id,
             'tanggal_mulai' => $this->tanggal_mulai,
             'tanggal_selesai' => $this->tanggal_selesai,
-            'tenggat_lpj' => $this->tenggat_lpj,
             'lokasi' => $this->lokasi,
             'penanggung_jawab' => $this->penanggung_jawab,
-            'status' => $this->status,
+            'no_pj' => $this->no_pj,
             'keterangan' => $this->keterangan,
         ]);
 
-        $this->reset(['proposal_id', 'tanggal_mulai', 'tanggal_selesai', 'tenggat_lpj', 'lokasi', 'penanggung_jawab', 'status', 'keterangan']);
+        $this->reset(['proposal_id', 'tanggal_mulai', 'tanggal_selesai', 'lokasi', 'penanggung_jawab','no_pj', 'keterangan']);
         $this->dispatch('success', message: "Pelaksanaan Kegiatan Berhasil Ditambahkan");
     }
 
@@ -99,10 +95,9 @@ class FormKegiatan extends Component
                 'proposal_id' => $this->proposal_id,
                 'tanggal_mulai' => $this->tanggal_mulai,
                 'tanggal_selesai' => $this->tanggal_selesai,
-                'tenggat_lpj' => $this->tenggat_lpj,
                 'lokasi' => $this->lokasi,
                 'penanggung_jawab' => $this->penanggung_jawab,
-                'status' => $this->status,
+                'no_pj' => $this->no_pj,
                 'keterangan' => $this->keterangan,
             ]);
 
@@ -119,10 +114,9 @@ class FormKegiatan extends Component
                 $this->proposal_id = $pelaksanaan->proposal_id;
                 $this->tanggal_mulai = $pelaksanaan->tanggal_mulai;
                 $this->tanggal_selesai = $pelaksanaan->tanggal_selesai;
-                $this->tenggat_lpj = $pelaksanaan->tenggat_lpj;
                 $this->lokasi = $pelaksanaan->lokasi;
                 $this->penanggung_jawab = $pelaksanaan->penanggung_jawab;
-                $this->status = $pelaksanaan->status;
+                $this->no_pj =  $pelaksanaan->no_pj;
                 $this->keterangan = $pelaksanaan->keterangan;
             }
         }

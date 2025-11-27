@@ -8,17 +8,18 @@ use Carbon\Carbon;
 class PendingLpj extends Component
 {
     public $pendingLpjs;
-    public $limit = 4; 
-
+    public $limit = 4;
+    
     public function mount()
     {
         $this->loadPendingLpjs();
     }
-
+    
     public function loadPendingLpjs()
     {
         $today = Carbon::now();
-
+        $todayString = Carbon::today()->toDateString();
+        
         $this->pendingLpjs = DB::table('lpjs')
             ->join('pelaksanaans', 'lpjs.pelaksanaan_id', '=', 'pelaksanaans.id')
             ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
@@ -31,15 +32,17 @@ class PendingLpj extends Component
                 'lpjs.status_lpj'
             )
             ->where('lpjs.status_lpj', 'Belum Disetor')
-            ->whereNotNull('proposals.dana_disetujui')->where('proposals.dana_disetujui', '>', 0)
-            ->where('pelaksanaans.status', 'selesai')
-            ->orderBy('pelaksanaans.tenggat_lpj', 'asc')
+            ->whereNotNull('proposals.dana_disetujui')
+            ->where('proposals.dana_disetujui', '>', 0)
+            // ✅ Ganti kondisi status dengan logika tanggal
+            ->where('pelaksanaans.tanggal_selesai', '<', $todayString)
+            ->orderByRaw('DATE_ADD(pelaksanaans.tanggal_selesai, INTERVAL 1 WEEK) ASC')
             ->limit($this->limit)
             ->get()
             ->map(function ($lpj) use ($today) {
                 $tenggat = Carbon::parse($lpj->tanggal_selesai)->addWeek();
                 $daysRemaining = $today->diffInDays($tenggat, false);
-
+                
                 // Hitung sisa waktu
                 if ($daysRemaining < 0) {
                     $lpj->deadline_text = 'Terlambat ' . abs($daysRemaining) . ' hari';
@@ -55,18 +58,18 @@ class PendingLpj extends Component
                 } else {
                     $lpj->deadline_text = 'Jatuh tempo: ' . $tenggat->format('d M Y');
                 }
-
+                
                 // Tentukan status prioritas dan badge
                 $lpj->priority = $this->determinePriority($daysRemaining);
-
+                
                 // Format tanggal tenggat
                 $lpj->tenggat_formatted = $tenggat->format('d M Y');
                 $lpj->days_remaining = $daysRemaining;
-
+                
                 return $lpj;
             });
     }
-
+    
     private function determinePriority($daysRemaining)
     {
         if ($daysRemaining < 0) {
@@ -95,7 +98,7 @@ class PendingLpj extends Component
             ];
         }
     }
-
+    
     public function render()
     {
         return view('livewire.dashboard.pending-lpj');

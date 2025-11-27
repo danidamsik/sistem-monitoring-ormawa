@@ -60,6 +60,8 @@ class LaporanRekap extends Component
 
     private function getdataRekaptulasi()
     {
+        $today = Carbon::today()->toDateString();
+
         return DB::table('lembagas')
             ->join('proposals', 'lembagas.id', '=', 'proposals.lembaga_id')
             ->join('pelaksanaans', 'proposals.id', '=', 'pelaksanaans.proposal_id')
@@ -71,14 +73,16 @@ class LaporanRekap extends Component
                 'pelaksanaans.tanggal_selesai',
                 'proposals.dana_diajukan',
                 'proposals.dana_disetujui',
-                'pelaksanaans.status as status_pelaksanaan',
+                DB::raw("CASE 
+                WHEN pelaksanaans.tanggal_mulai > '{$today}' THEN 'belum_dimulai'
+                WHEN pelaksanaans.tanggal_mulai <= '{$today}' AND pelaksanaans.tanggal_selesai >= '{$today}' THEN 'sedang_berlangsung'
+                WHEN pelaksanaans.tanggal_selesai < '{$today}' THEN 'selesai'
+            END as status_pelaksanaan"),
                 'lpjs.status_lpj'
             )
             ->whereYear('pelaksanaans.tanggal_mulai', $this->tahun)
             ->where('proposals.dana_disetujui', '>', 0.00)
             ->whereNotNull('proposals.dana_disetujui')
-            ->where('pelaksanaans.status', 'selesai')
-            ->where('lpjs.status_lpj', 'Di Setujui')
             ->orderBy('pelaksanaans.tanggal_mulai', 'desc');
     }
 

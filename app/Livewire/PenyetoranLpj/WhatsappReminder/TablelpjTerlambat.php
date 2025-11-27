@@ -1,40 +1,43 @@
 <?php
-
 namespace App\Livewire\PenyetoranLpj\WhatsappReminder;
 
 use Livewire\Component;
 use App\Models\Pelaksanaan;
 use Livewire\WithPagination;
+use Carbon\Carbon;
 
 class TablelpjTerlambat extends Component
 {
     use WithPagination;
-
+    
     public $search = '';
     public $lembagaFilter = '';
-
+    
     protected $updatesQueryString = ['search', 'lembagaFilter'];
-
+    
     public function updatedSearch()
     {
         $this->resetPage();
     }
-
+    
     public function updatedLembagaFilter()
     {
         $this->resetPage();
     }
-
+    
     public function getlpjTerlambat()
     {
+        $weekAgo = Carbon::today()->subWeek()->toDateString();
+        
         return Pelaksanaan::whereHas('lpj', function ($query) {
-            $query->where('status_lpj', 'Belum Disetor');
-        })
+                $query->where('status_lpj', 'Belum Disetor');
+            })
             ->whereHas('proposal', function ($query) {
                 $query->whereNotNull('dana_disetujui')
                     ->where('dana_disetujui', '>', 0);
-            })->where('status', '=', 'selesai')
-            ->where('tanggal_selesai', '<=', now()->subWeek())
+            })
+            // ✅ Hapus kondisi status, hanya gunakan logika tanggal
+            ->where('tanggal_selesai', '<=', $weekAgo)
             ->when($this->search, function ($q) {
                 $q->whereHas('proposal', function ($p) {
                     $p->where('nama_kegiatan', 'like', "%{$this->search}%")
@@ -51,17 +54,20 @@ class TablelpjTerlambat extends Component
             ->with(['lpj', 'proposal.lembaga'])
             ->paginate(10);
     }
-
+    
     public function getLembagaList()
     {
+        $weekAgo = Carbon::today()->subWeek()->toDateString();
+        
         return Pelaksanaan::whereHas('lpj', function ($query) {
-            $query->where('status_lpj', 'Belum Disetor');
-        })
+                $query->where('status_lpj', 'Belum Disetor');
+            })
             ->whereHas('proposal', function ($query) {
                 $query->whereNotNull('dana_disetujui')
                     ->where('dana_disetujui', '>', 0);
             })
-            ->where('tanggal_selesai', '<=', now()->subWeek())
+            // ✅ Hapus kondisi status, hanya gunakan logika tanggal
+            ->where('tanggal_selesai', '<=', $weekAgo)
             ->with('proposal.lembaga')
             ->get()
             ->pluck('proposal.lembaga')
@@ -69,7 +75,7 @@ class TablelpjTerlambat extends Component
             ->unique('id')
             ->values(); 
     }
-
+    
     public function render()
     {
         return view('livewire.penyetoran-lpj.whatsapp-reminder.tablelpj-terlambat', [

@@ -35,7 +35,6 @@
                     <th class="px-4 py-3 border text-left">Tenggat LPJ</th>
                     <th class="px-4 py-3 border text-left">Tanggal Disetor</th>
                     <th class="px-4 py-3 border text-left">Status LPJ</th>
-                    <th class="px-4 py-3 border text-center">Diperiksa SPI</th>
                     <th class="px-4 py-3 border text-center">Aksi</th>
                 </tr>
             </thead>
@@ -58,13 +57,6 @@
                                     ? 'text-yellow-600'
                                     : 'text-red-600') }}">
                             {{ $lpj->status_lpj }}
-                        </td>
-                        <td class="px-4 py-3 text-center">
-                            @if ($lpj->diperiksa_spi)
-                                <i class="fa-solid fa-check text-green-500"></i>
-                            @else
-                                <i class="fa-solid fa-xmark text-red-500"></i>
-                            @endif
                         </td>
                         <td class="px-4 py-3 text-center">
                             <div class="flex items-center justify-center space-x-2">
