@@ -14,16 +14,14 @@
         class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col mx-auto lg:mx-0 lg:translate-x-16 xl:translate-x-20 2xl:translate-x-24">
 
         <!-- Header -->
-        <div
-            class="bg-gradient-to-b from-purple-900 to-purple-800 px-4 sm:px-6 py-4 sm:py-5 relative overflow-hidden flex-shrink-0">
+        <div class="bg-gradient-to-b from-purple-900 to-purple-800 px-4 sm:px-6 py-4 sm:py-5 relative overflow-hidden flex-shrink-0">
             <div class="absolute inset-0 bg-white opacity-5"></div>
             <div class="relative flex items-center justify-between">
                 <div class="flex items-center gap-3" x-show="showDetail"
                     x-transition:enter="transition ease-out duration-500 delay-100"
                     x-transition:enter-start="opacity-0 -translate-x-10"
                     x-transition:enter-end="opacity-100 translate-x-0">
-                    <div
-                        class="w-10 h-10 bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl flex items-center justify-center ring-2 ring-white ring-opacity-30">
+                    <div class="w-10 h-10 bg-white bg-opacity-20 backdrop-blur-sm rounded-2xl flex items-center justify-center ring-2 ring-white ring-opacity-30">
                         <i class="fa-solid fa-circle-info text-white text-lg"></i>
                     </div>
                     <div>
@@ -36,8 +34,7 @@
                     x-transition:enter-start="opacity-0 translate-x-10 rotate-90"
                     x-transition:enter-end="opacity-100 translate-x-0 rotate-0"
                     class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-white hover:bg-opacity-20 transition-all duration-200 group flex-shrink-0">
-                    <i
-                        class="fa-solid fa-xmark text-white text-xl group-hover:rotate-90 transition-transform duration-200"></i>
+                    <i class="fa-solid fa-xmark text-white text-xl group-hover:rotate-90 transition-transform duration-200"></i>
                 </button>
             </div>
         </div>
@@ -52,17 +49,14 @@
                     x-transition:enter-end="opacity-100 translate-y-0"
                     class="bg-white rounded-2xl p-4 border-2 border-blue-100 shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div class="flex items-center gap-2 mb-3">
-                        <div
-                            class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
                             <i class="fa-solid fa-flag text-white text-sm"></i>
                         </div>
                         <label class="text-xs font-bold text-blue-600 uppercase tracking-wider">
                             Nama Kegiatan
                         </label>
                     </div>
-                    <p class="text-gray-900 font-semibold text-base pl-0 sm:pl-10">
-                        Pelatihan Pengembangan Kapasitas SDM Digital 2024
-                    </p>
+                    <p class="text-gray-900 font-semibold text-base pl-0 sm:pl-10" x-text="selectedData.nama_kegiatan"></p>
                 </div>
 
                 <!-- Lembaga & Lokasi -->
@@ -72,17 +66,14 @@
                         x-transition:enter-end="opacity-100 translate-x-0"
                         class="bg-white rounded-2xl p-4 border-2 border-gray-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-200">
                         <div class="flex items-center gap-2 mb-3">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-building text-white text-sm"></i>
                             </div>
                             <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">
                                 Lembaga
                             </label>
                         </div>
-                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10">
-                            Dinas Komunikasi dan Informatika
-                        </p>
+                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10" x-text="selectedData.nama_lembaga"></p>
                     </div>
 
                     <div x-show="showDetail" x-transition:enter="transition ease-out duration-500 delay-350"
@@ -90,17 +81,14 @@
                         x-transition:enter-end="opacity-100 translate-x-0"
                         class="bg-white rounded-2xl p-4 border-2 border-gray-100 shadow-sm hover:shadow-md hover:border-red-200 transition-all duration-200">
                         <div class="flex items-center gap-2 mb-3">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-location-dot text-white text-sm"></i>
                             </div>
                             <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">
                                 Lokasi
                             </label>
                         </div>
-                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10">
-                            Aula Gedung Serbaguna Lt. 3, Palu
-                        </p>
+                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10" x-text="selectedData.lokasi"></p>
                     </div>
                 </div>
 
@@ -111,17 +99,14 @@
                         x-transition:enter-end="opacity-100 translate-x-0"
                         class="bg-white rounded-2xl p-4 border-2 border-gray-100 shadow-sm hover:shadow-md hover:border-green-200 transition-all duration-200">
                         <div class="flex items-center gap-2 mb-3">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-calendar-day text-white text-sm"></i>
                             </div>
                             <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">
                                 Tanggal Mulai
                             </label>
                         </div>
-                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10">
-                            15 Januari 2024
-                        </p>
+                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10" x-text="selectedData.tanggal_mulai"></p>
                     </div>
 
                     <div x-show="showDetail" x-transition:enter="transition ease-out duration-500 delay-450"
@@ -129,17 +114,14 @@
                         x-transition:enter-end="opacity-100 translate-x-0"
                         class="bg-white rounded-2xl p-4 border-2 border-gray-100 shadow-sm hover:shadow-md hover:border-purple-200 transition-all duration-200">
                         <div class="flex items-center gap-2 mb-3">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-purple-500 to-violet-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 bg-gradient-to-br from-purple-500 to-violet-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-calendar-check text-white text-sm"></i>
                             </div>
                             <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">
                                 Tanggal Selesai
                             </label>
                         </div>
-                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10">
-                            20 Januari 2024
-                        </p>
+                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10" x-text="selectedData.tanggal_selesai"></p>
                     </div>
                 </div>
 
@@ -150,17 +132,14 @@
                         x-transition:enter-end="opacity-100 translate-x-0"
                         class="bg-white rounded-2xl p-4 border-2 border-gray-100 shadow-sm hover:shadow-md hover:border-indigo-200 transition-all duration-200">
                         <div class="flex items-center gap-2 mb-3">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-user-tie text-white text-sm"></i>
                             </div>
                             <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">
                                 Penanggung Jawab
                             </label>
                         </div>
-                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10">
-                            Dr. Ahmad Rizki, S.Kom., M.T.
-                        </p>
+                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10" x-text="selectedData.penanggung_jawab"></p>
                     </div>
 
                     <div x-show="showDetail" x-transition:enter="transition ease-out duration-500 delay-550"
@@ -168,17 +147,14 @@
                         x-transition:enter-end="opacity-100 translate-x-0"
                         class="bg-white rounded-2xl p-4 border-2 border-gray-100 shadow-sm hover:shadow-md hover:border-teal-200 transition-all duration-200">
                         <div class="flex items-center gap-2 mb-3">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 bg-gradient-to-br from-teal-500 to-cyan-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-phone text-white text-sm"></i>
                             </div>
                             <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">
                                 No. Telepon
                             </label>
                         </div>
-                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10">
-                            +62 812-3456-7890
-                        </p>
+                        <p class="text-gray-900 font-medium text-sm pl-0 sm:pl-10" x-text="selectedData.no_pj"></p>
                     </div>
                 </div>
 
@@ -188,25 +164,21 @@
                         x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                         class="bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl p-4 border-2 border-emerald-200 shadow-sm hover:shadow-md transition-all duration-200">
                         <div class="flex items-center gap-2 mb-3">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-money-bill-wave text-white text-sm"></i>
                             </div>
                             <label class="text-xs font-bold text-emerald-700 uppercase tracking-wider">
                                 Dana Disetujui
                             </label>
                         </div>
-                        <p class="text-emerald-900 font-bold text-lg pl-0 sm:pl-10">
-                            Rp 75.000.000
-                        </p>
+                        <p class="text-emerald-900 font-bold text-lg pl-0 sm:pl-10" x-text="formatRupiah(selectedData.dana_disetujui)"></p>
                     </div>
 
                     <div x-show="showDetail" x-transition:enter="transition ease-out duration-500 delay-650"
                         x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
                         class="bg-white rounded-2xl p-4 border-2 border-gray-100 shadow-sm hover:shadow-md hover:border-amber-200 transition-all duration-200">
                         <div class="flex items-center gap-2 mb-3">
-                            <div
-                                class="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <i class="fa-solid fa-circle-check text-white text-sm"></i>
                             </div>
                             <label class="text-xs font-bold text-gray-600 uppercase tracking-wider">
@@ -214,10 +186,10 @@
                             </label>
                         </div>
                         <div class="pl-0 sm:pl-10">
-                            <span
-                                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold bg-green-100 text-green-700 shadow-sm">
-                                <i class="fa-solid fa-check-circle"></i>
-                                Disetujui
+                            <span :class="getStatusDisplay(selectedData.status).class"
+                                class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm">
+                                <i :class="'fa-solid ' + getStatusDisplay(selectedData.status).icon"></i>
+                                <span x-text="getStatusDisplay(selectedData.status).label"></span>
                             </span>
                         </div>
                     </div>
@@ -229,20 +201,14 @@
                     x-transition:enter-end="opacity-100 translate-y-0"
                     class="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-4 border-2 border-orange-200 shadow-sm">
                     <div class="flex items-center gap-2 mb-3">
-                        <div
-                            class="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
                             <i class="fa-solid fa-file-lines text-white text-sm"></i>
                         </div>
                         <label class="text-xs font-bold text-orange-700 uppercase tracking-wider">
                             Keterangan
                         </label>
                     </div>
-                    <p class="text-gray-800 leading-relaxed pl-0 sm:pl-10 text-sm">
-                        Kegiatan ini bertujuan untuk meningkatkan kompetensi aparatur sipil negara dalam bidang
-                        teknologi digital dan transformasi digital pemerintahan. Program mencakup pelatihan coding, data
-                        analytics, cybersecurity, dan implementasi e-Government. Diikuti oleh 50 peserta dari berbagai
-                        OPD di lingkungan Pemerintah Kota Palu.
-                    </p>
+                    <p class="text-gray-800 leading-relaxed pl-0 sm:pl-10 text-sm" x-text="selectedData.keterangan"></p>
                 </div>
 
             </div>
