@@ -38,7 +38,6 @@ class Login extends Component
             ]);
         }
 
-        // Tentukan apakah input berupa email atau nama
         $fieldType = filter_var($this->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
         $credentials = [
@@ -46,7 +45,6 @@ class Login extends Component
             'password' => $this->password,
         ];
 
-        // Login tanpa remember
         if (Auth::attempt($credentials)) {
             RateLimiter::clear($throttleKey);
             request()->session()->regenerate();

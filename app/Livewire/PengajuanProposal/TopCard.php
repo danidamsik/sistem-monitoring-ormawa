@@ -41,13 +41,10 @@ class TopCard extends Component
     private function formatRupiah($angka)
     {
         if ($angka >= 1000000000) {
-            // Milyar
             return 'Rp ' . number_format($angka / 1000000000, 1, ',', '.') . ' M';
         } elseif ($angka >= 1000000) {
-            // Juta
             return 'Rp ' . number_format($angka / 1000000, 0, ',', '.') . ' Jt';
         } elseif ($angka >= 1000) {
-            // Ribu
             return 'Rp ' . number_format($angka / 1000, 0, ',', '.') . ' Rb';
         } else {
             return 'Rp ' . number_format($angka, 0, ',', '.');

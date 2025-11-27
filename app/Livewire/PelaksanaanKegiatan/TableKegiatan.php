@@ -38,7 +38,6 @@ class TableKegiatan extends Component
                 'pelaksanaans.tanggal_selesai',
                 'pelaksanaans.lokasi',
                 'pelaksanaans.penanggung_jawab',
-                // Hitung status secara real-time dengan CASE
                 DB::raw("CASE 
                 WHEN pelaksanaans.tanggal_mulai > '{$today}' THEN 'belum_dimulai'
                 WHEN pelaksanaans.tanggal_mulai <= '{$today}' AND pelaksanaans.tanggal_selesai >= '{$today}' THEN 'sedang_berlangsung'

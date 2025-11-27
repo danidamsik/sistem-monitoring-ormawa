@@ -1,9 +1,5 @@
 <?php
 
-// ============================================
-// File: app/Livewire/Dashboard/RecentProposals.php
-// ============================================
-
 namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
@@ -13,9 +9,15 @@ use Carbon\Carbon;
 class RecentProposals extends Component
 {
     public $recentProposals;
-    public $limit = 5; // Jumlah proposal yang ditampilkan
+    public $limit = 5; // Tambahkan nilai default
 
     public function mount()
+    {
+        $this->loadRecentProposals();
+    }
+
+    // Method ini akan dipanggil otomatis saat $limit berubah
+    public function updatedLimit()
     {
         $this->loadRecentProposals();
     }
@@ -38,10 +40,7 @@ class RecentProposals extends Component
             ->limit($this->limit)
             ->get()
             ->map(function ($proposal) {
-                // Format waktu relatif (2 hari lalu, 1 minggu lalu)
                 $proposal->time_ago = Carbon::parse($proposal->created_at)->locale('id')->diffForHumans();
-
-                // Tentukan status badge berdasarkan status LPJ dan tanggal
                 $proposal->status = $this->determineStatus($proposal);
 
                 return $proposal;
@@ -50,14 +49,12 @@ class RecentProposals extends Component
 
     private function determineStatus($proposal)
     {
-        // Jika sudah ada LPJ
         if ($proposal->status_lpj === 'Sudah Disetor') {
             return [
                 'text' => 'Selesai',
                 'class' => 'bg-green-100 text-green-800'
             ];
         } elseif ($proposal->status_lpj === 'Belum Disetor' && $proposal->tanggal_mulai) {
-            // Jika kegiatan sudah dimulai tapi belum setor LPJ
             $tanggalMulai = Carbon::parse($proposal->tanggal_mulai);
             if ($tanggalMulai->isPast()) {
                 return [
@@ -71,13 +68,11 @@ class RecentProposals extends Component
                 ];
             }
         } elseif ($proposal->tanggal_mulai) {
-            // Jika sudah ada jadwal pelaksanaan
             return [
                 'text' => 'Disetujui',
                 'class' => 'bg-green-100 text-green-800'
             ];
         } else {
-            // Proposal baru diajukan, belum ada pelaksanaan
             return [
                 'text' => 'Diajukan',
                 'class' => 'bg-blue-100 text-blue-800'

@@ -15,7 +15,6 @@ class Lembaga extends Model
         'email',
     ];
 
-    // Relasi: Lembaga memiliki banyak Proposal
     public function proposals()
     {
         return $this->hasMany(Proposal::class);

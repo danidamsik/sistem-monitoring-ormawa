@@ -11,8 +11,6 @@ class TableLpj extends Component
 {
     use WithPagination;
 
-    protected string $paginationTheme = 'tailwind';
-
     public function mount()
     {
         $this->createLpjForCompleted();

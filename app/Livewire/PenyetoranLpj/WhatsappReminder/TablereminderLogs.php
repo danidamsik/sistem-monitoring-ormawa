@@ -35,7 +35,6 @@ class TablereminderLogs extends Component
             ->join('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
             ->whereNotNull('proposals.dana_disetujui')
             ->where('proposals.dana_disetujui', '>', 0)
-            // ✅ Ganti kondisi status dengan logika tanggal
             ->where('pelaksanaans.tanggal_selesai', '<', $today)
             ->where('lpjs.status_lpj', '=', 'Belum Disetor')
             ->when($this->search, function ($query) {

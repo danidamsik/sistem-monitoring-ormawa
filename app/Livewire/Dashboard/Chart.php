@@ -30,7 +30,6 @@ class Chart extends Component
                 DB::raw('COUNT(*) as total')
             )
             ->whereYear('pelaksanaans.tanggal_mulai', $currentYear)
-            // ✅ Ganti kondisi status dengan logika tanggal
             ->where('pelaksanaans.tanggal_selesai', '<', $today)
             ->whereNotNull('proposals.dana_disetujui')
             ->where('proposals.dana_disetujui', '>', 0.00)
