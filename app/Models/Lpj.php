@@ -21,8 +21,7 @@ class Lpj extends Model
         'tanggal_disetor' => 'date',
         'diperiksa_spi' => 'boolean',
     ];
-
-    // Relasi: LPJ dimiliki oleh satu Pelaksanaan
+    
     public function pelaksanaan()
     {
         return $this->belongsTo(Pelaksanaan::class);

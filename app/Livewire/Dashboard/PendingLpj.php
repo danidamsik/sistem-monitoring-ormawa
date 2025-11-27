@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
@@ -11,6 +12,11 @@ class PendingLpj extends Component
     public $limit = 4;
     
     public function mount()
+    {
+        $this->loadPendingLpjs();
+    }
+    
+    public function updatedLimit()
     {
         $this->loadPendingLpjs();
     }
@@ -34,7 +40,6 @@ class PendingLpj extends Component
             ->where('lpjs.status_lpj', 'Belum Disetor')
             ->whereNotNull('proposals.dana_disetujui')
             ->where('proposals.dana_disetujui', '>', 0)
-            // ✅ Ganti kondisi status dengan logika tanggal
             ->where('pelaksanaans.tanggal_selesai', '<', $todayString)
             ->orderByRaw('DATE_ADD(pelaksanaans.tanggal_selesai, INTERVAL 1 WEEK) ASC')
             ->limit($this->limit)
@@ -43,7 +48,6 @@ class PendingLpj extends Component
                 $tenggat = Carbon::parse($lpj->tanggal_selesai)->addWeek();
                 $daysRemaining = $today->diffInDays($tenggat, false);
                 
-                // Hitung sisa waktu
                 if ($daysRemaining < 0) {
                     $lpj->deadline_text = 'Terlambat ' . abs($daysRemaining) . ' hari';
                 } elseif ($daysRemaining == 0) {
@@ -59,10 +63,7 @@ class PendingLpj extends Component
                     $lpj->deadline_text = 'Jatuh tempo: ' . $tenggat->format('d M Y');
                 }
                 
-                // Tentukan status prioritas dan badge
                 $lpj->priority = $this->determinePriority($daysRemaining);
-                
-                // Format tanggal tenggat
                 $lpj->tenggat_formatted = $tenggat->format('d M Y');
                 $lpj->days_remaining = $daysRemaining;
                 
@@ -79,19 +80,16 @@ class PendingLpj extends Component
                 'class' => 'bg-red-100 text-red-800'
             ];
         } elseif ($daysRemaining <= 3) {
-            // Mendesak (3 hari atau kurang)
             return [
                 'text' => 'Mendesak',
                 'class' => 'bg-red-100 text-red-800'
             ];
         } elseif ($daysRemaining <= 7) {
-            // Prioritas (4-7 hari)
             return [
                 'text' => 'Prioritas',
                 'class' => 'bg-yellow-100 text-yellow-800'
             ];
         } else {
-            // Normal (lebih dari 7 hari)
             return [
                 'text' => 'Normal',
                 'class' => 'bg-blue-100 text-blue-800'

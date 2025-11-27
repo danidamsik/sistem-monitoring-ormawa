@@ -40,19 +40,16 @@ class CardSummary extends Component
         $this->totalKegiatan = $pelaksanaanStats->total;
         $this->sedangBerlangsung = $pelaksanaanStats->sedang_berlangsung;
         
-        // Stats LPJ - ✅ Gunakan logika tanggal
         $lpjStats = DB::table('lpjs')
             ->join('pelaksanaans', 'lpjs.pelaksanaan_id', '=', 'pelaksanaans.id')
             ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
-            // ✅ Ganti status dengan logika tanggal
             ->where('pelaksanaans.tanggal_selesai', '<', $today)
             ->where('proposals.dana_disetujui', '>', 0.00)
             ->whereNotNull('proposals.dana_disetujui')
             ->select(
                 DB::raw("SUM(CASE WHEN status_lpj = 'Belum Disetor' THEN 1 ELSE 0 END) as belum_disetor"),
                 DB::raw("SUM(CASE WHEN status_lpj = 'Di Setujui' THEN 1 ELSE 0 END) as sudah_disetor")
-            )
-            ->first();
+            )->first();
         
         $this->belumSetorLpj = $lpjStats->belum_disetor ?? 0;
         $this->sudahSetorLpj = $lpjStats->sudah_disetor ?? 0;

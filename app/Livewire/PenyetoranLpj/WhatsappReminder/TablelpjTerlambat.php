@@ -36,7 +36,6 @@ class TablelpjTerlambat extends Component
                 $query->whereNotNull('dana_disetujui')
                     ->where('dana_disetujui', '>', 0);
             })
-            // ✅ Hapus kondisi status, hanya gunakan logika tanggal
             ->where('tanggal_selesai', '<=', $weekAgo)
             ->when($this->search, function ($q) {
                 $q->whereHas('proposal', function ($p) {
@@ -66,7 +65,6 @@ class TablelpjTerlambat extends Component
                 $query->whereNotNull('dana_disetujui')
                     ->where('dana_disetujui', '>', 0);
             })
-            // ✅ Hapus kondisi status, hanya gunakan logika tanggal
             ->where('tanggal_selesai', '<=', $weekAgo)
             ->with('proposal.lembaga')
             ->get()

@@ -18,7 +18,6 @@ class CardStatistik extends Component
             ->join('proposals', 'proposals.id', '=', 'pelaksanaans.proposal_id')
             ->whereNotNull('proposals.dana_disetujui')
             ->where('proposals.dana_disetujui', '>', 0)
-            // ✅ Gunakan logika tanggal, bukan kolom status
             ->where('pelaksanaans.tanggal_selesai', '<', $today)
             ->select('lpjs.status_lpj', DB::raw('COUNT(*) as total'))
             ->groupBy('lpjs.status_lpj')

@@ -1,6 +1,15 @@
 <div>
     <div class="bg-white rounded-xl shadow-md p-6">
         <h2 class="text-xl font-bold text-gray-800 mb-4">LPJ Menunggu</h2>
+        <div class="mb-4">
+            <label class="text-gray-700 font-medium">Tampilkan:</label>
+            <select wire:model.live="limit" class="border rounded p-1">
+                <option value="5">5 Data</option>
+                <option value="10">10 Data</option>
+                <option value="15">15 Data</option>
+                <option value="20">20 Data</option>
+            </select>
+        </div>
 
         @if ($pendingLpjs && $pendingLpjs->count() > 0)
             <div class="space-y-4">

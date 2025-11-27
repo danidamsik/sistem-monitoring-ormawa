@@ -22,22 +22,18 @@ class TopCard extends Component
     {
         $today = Carbon::today()->toDateString();
         
-        // Total Proposal
         $this->totalProposal = DB::table('proposals')->count();
         
-        // Proposal Baru (minggu ini)
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
         
         $this->proposalBaru = DB::table('proposals')
             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
             ->count();
-        
-        // Statistik LPJ - ✅ Gunakan logika tanggal
+    
         $statistik = DB::table('lpjs')
             ->join('pelaksanaans', 'lpjs.pelaksanaan_id', '=', 'pelaksanaans.id')
             ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
-            // ✅ Ganti kondisi status dengan logika tanggal
             ->where('pelaksanaans.tanggal_selesai', '<', $today)
             ->whereNotNull('proposals.dana_disetujui')
             ->where('proposals.dana_disetujui', '>', 0)
@@ -48,8 +44,6 @@ class TopCard extends Component
         
         $this->menungguLpj = $statistik->get('Belum Disetor', 0);
         $this->lpjTersetor = $statistik->get('Di Setujui', 0);
-        
-        // LPJ Bulan Ini
         $startOfMonth = Carbon::now()->startOfMonth();
         $endOfMonth = Carbon::now()->endOfMonth();
         
@@ -57,7 +51,6 @@ class TopCard extends Component
             ->join('pelaksanaans', 'lpjs.pelaksanaan_id', '=', 'pelaksanaans.id')
             ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
             ->where('lpjs.status_lpj', 'Di Setujui')
-            // ✅ Ganti kondisi status dengan logika tanggal
             ->where('pelaksanaans.tanggal_selesai', '<', $today)
             ->whereNotNull('proposals.dana_disetujui')
             ->where('proposals.dana_disetujui', '>', 0)

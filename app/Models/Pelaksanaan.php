@@ -26,19 +26,15 @@ class Pelaksanaan extends Model
         'tenggat_lpj' => 'date',
     ];
 
-    // Relasi: Pelaksanaan dimiliki oleh satu Proposal
     public function proposal()
     {
         return $this->belongsTo(Proposal::class);
     }
 
-    // Relasi: Pelaksanaan memiliki satu LPJ
     public function lpj()
     {
         return $this->hasOne(Lpj::class);
     }
-
-    // Relasi: Pelaksanaan memiliki banyak ReminderLog
     public function reminderLogs()
     {
         return $this->hasMany(ReminderLog::class);
