@@ -112,7 +112,7 @@
         <!-- Button -->
         <div class="md:col-span-3 flex justify-end pt-2">
             <button type="submit"
-                class="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="bg-gradient-to-b from-purple-900 to-purple-800 hover:from-purple-600 hover:to-pink-700 text-white font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 wire:loading.attr="disabled">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" wire:loading.remove wire:target="createOrUpdate">
