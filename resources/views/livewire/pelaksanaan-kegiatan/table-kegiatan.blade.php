@@ -1,4 +1,51 @@
-<div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6" x-data="{ showDetail: false }">
+<div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6" x-data="{ 
+    showDetail: false,
+    selectedData: {
+        nama_kegiatan: '',
+        nama_lembaga: '',
+        lokasi: '',
+        tanggal_mulai: '',
+        tanggal_selesai: '',
+        penanggung_jawab: '',
+        no_pj: '',
+        dana_disetujui: '',
+        status: '',
+        keterangan: ''
+    },
+    
+    openDetail(data) {
+        this.selectedData = {
+            nama_kegiatan: data.nama_kegiatan,
+            nama_lembaga: data.nama_lembaga,
+            lokasi: data.lokasi || '-',
+            tanggal_mulai: data.tanggal_mulai,
+            tanggal_selesai: data.tanggal_selesai,
+            penanggung_jawab: data.penanggung_jawab,
+            no_pj: data.no_pj,
+            dana_disetujui: data.dana_disetujui,
+            status: data.status,
+            keterangan: data.keterangan || '-'
+        };
+        this.showDetail = true;
+    },
+    
+    formatRupiah(angka) {
+        return 'Rp ' + new Intl.NumberFormat('id-ID').format(angka);
+    },
+    
+    formatTanggal(tanggal) {
+        return tanggal; // Sudah diformat dari backend
+    },
+    
+    getStatusDisplay(status) {
+        const statusMap = {
+            'belum_dimulai': { label: 'Belum Dimulai', class: 'bg-yellow-100 text-yellow-700', icon: 'fa-clock' },
+            'sedang_berlangsung': { label: 'Sedang Berlangsung', class: 'bg-blue-100 text-blue-700', icon: 'fa-spinner' },
+            'selesai': { label: 'Selesai', class: 'bg-green-100 text-green-700', icon: 'fa-check-circle' }
+        };
+        return statusMap[status] || { label: status, class: 'bg-gray-100 text-gray-700', icon: 'fa-circle' };
+    }
+}">
 
     <div class="flex flex-col sm:flex-row justify-between items-center mb-5">
         <h2 class="text-xl font-semibold text-gray-700 mb-3 sm:mb-0">Daftar Pelaksanaan Kegiatan</h2>
@@ -50,8 +97,18 @@
                             </span>
                         </td>
                         <td class="px-4 py-3 flex gap-2">
-                            <button @click="showDetail = true" class="text-blue-600 hover:text-blue-800"
-                                title="Lihat Detail">
+                            <button @click="openDetail({
+                                nama_kegiatan: '{{ $pelaksanaan->nama_kegiatan }}',
+                                nama_lembaga: '{{ $pelaksanaan->nama_lembaga }}',
+                                lokasi: '{{ $pelaksanaan->lokasi }}',
+                                tanggal_mulai: '{{ \Carbon\Carbon::parse($pelaksanaan->tanggal_mulai)->translatedFormat("d F Y") }}',
+                                tanggal_selesai: '{{ \Carbon\Carbon::parse($pelaksanaan->tanggal_selesai)->translatedFormat("d F Y") }}',
+                                penanggung_jawab: '{{ $pelaksanaan->penanggung_jawab }}',
+                                no_pj: '{{ $pelaksanaan->no_pj }}',
+                                dana_disetujui: '{{ $pelaksanaan->dana_disetujui }}',
+                                status: '{{ $pelaksanaan->status }}',
+                                keterangan: '{{ $pelaksanaan->keterangan }}'
+                            })" class="text-blue-600 hover:text-blue-800" title="Lihat Detail">
                                 <i class="fas fa-eye"></i>
                             </button>
                             <a href="/pelaksanaan-kegiatan/edit/{{ $pelaksanaan->id }}" wire:navigate
