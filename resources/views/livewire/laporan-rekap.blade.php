@@ -1,4 +1,4 @@
-<div class="p-6 space-y-8" x-data="{ tahun: @entangle('tahun') }">
+<div class="p-0 space-y-8" x-data="{ tahun: @entangle('tahun') }">
     <!-- ======== Header ======== -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div class="flex items-center gap-3">

@@ -12,8 +12,6 @@ class TableLpj extends Component
     use WithPagination;
 
     protected string $paginationTheme = 'tailwind';
-    public $modal = false;
-    public $lpj_id;
 
     public function mount()
     {
@@ -30,7 +28,6 @@ class TableLpj extends Component
             ->select('pelaksanaans.id')
             ->where('proposals.dana_disetujui', '>', 0.00)
             ->whereNotNull('proposals.dana_disetujui')
-            // ✅ Gunakan logika tanggal, bukan kolom status
             ->where('pelaksanaans.tanggal_selesai', '<', $today)
             ->whereNull('lpjs.id')
             ->get();
@@ -52,13 +49,6 @@ class TableLpj extends Component
         if (!empty($lpjData)) {
             DB::table('lpjs')->insert($lpjData);
         }
-    }
-
-    public function delete()
-    {
-        DB::table('lpjs')->where('id', $this->lpj_id)->delete();
-        $this->modal = false;
-        $this->dispatch('success', message: "LPJ berhasil dihapus!");
     }
 
     public function getListLpj()

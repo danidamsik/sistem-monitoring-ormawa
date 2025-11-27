@@ -1,5 +1,5 @@
 <div
-    class="bg-white/80 shadow-xl rounded-2xl p-8 border border-white/20 hover:shadow-2xl transition-all duration-300 mb-12">
+    class="bg-white/80 shadow-xl rounded-2xl p-4 border border-white/20 hover:shadow-2xl transition-all duration-300 mb-12">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
         <div>

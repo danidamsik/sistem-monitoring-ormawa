@@ -12,7 +12,6 @@ class Login extends Component
 {
     public $email = ''; 
     public $password = '';
-    public $remember = false;
 
     protected $rules = [
         'email' => 'required',
@@ -47,8 +46,8 @@ class Login extends Component
             'password' => $this->password,
         ];
 
-        // Coba login
-        if (Auth::attempt($credentials, $this->remember)) {
+        // Login tanpa remember
+        if (Auth::attempt($credentials)) {
             RateLimiter::clear($throttleKey);
             request()->session()->regenerate();
 

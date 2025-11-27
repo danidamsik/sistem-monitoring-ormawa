@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 px-6 py-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 px-2 py-8">
     <!-- Header Section -->
     <div class="mb-8">
         <div class="flex items-center gap-3 mb-2">

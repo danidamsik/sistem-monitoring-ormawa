@@ -17,25 +17,25 @@ class DatabaseSeeder extends Seeder
         User::factory(1)->create();
         Lembaga::factory(10)->create();
 
-        // $proposals = Proposal::factory(100)->create();
-        // $proposalsWithPelaksanaan = $proposals->random(70);
+        $proposals = Proposal::factory(100)->create();
+        $proposalsWithPelaksanaan = $proposals->random(70);
 
-        // $pelaksanaans = $proposalsWithPelaksanaan->map(function ($proposal) {
-        //     return Pelaksanaan::factory()->create([
-        //         'proposal_id' => $proposal->id
-        //     ]);
-        // });
+        $pelaksanaans = $proposalsWithPelaksanaan->map(function ($proposal) {
+            return Pelaksanaan::factory()->create([
+                'proposal_id' => $proposal->id
+            ]);
+        });
 
-        // $pelaksanaansWithLpj = $pelaksanaans->random(60);
+        $pelaksanaansWithLpj = $pelaksanaans->random(60);
 
-        // $pelaksanaansWithLpj->each(function ($pelaksanaan) {
-        //     Lpj::factory()->create([
-        //         'pelaksanaan_id' => $pelaksanaan->id
-        //     ]);
+        $pelaksanaansWithLpj->each(function ($pelaksanaan) {
+            Lpj::factory()->create([
+                'pelaksanaan_id' => $pelaksanaan->id
+            ]);
 
-        //     ReminderLog::factory(rand(1, 5))->create([
-        //         'pelaksanaan_id' => $pelaksanaan->id
-        //     ]);
-        // });
+            ReminderLog::factory(rand(1, 5))->create([
+                'pelaksanaan_id' => $pelaksanaan->id
+            ]);
+        });
     }
 }

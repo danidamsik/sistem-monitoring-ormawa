@@ -1,73 +1,34 @@
 <?php
+
 namespace App\Livewire\PenyetoranLpj;
 
+use App\Models\Lpj;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class FormLpj extends Component
 {
-    public $id, $pelaksanaan_id, $status_lpj, $tanggal_disetor, $catatan_spi;
-    
-    public function mount($id = null)
+    public $id, $pelaksanaan_id, $pelaksanaan_name, $status_lpj, $tanggal_disetor, $catatan_spi;
+
+    public function mount($id)
     {
-        if ($id) {
-            $lpj = DB::table('lpjs')->find($id);
-            if ($lpj) {
-                $this->id = $id;
-                $this->pelaksanaan_id = $lpj->pelaksanaan_id;
-                $this->status_lpj = $lpj->status_lpj;
-                $this->tanggal_disetor = $lpj->tanggal_disetor;
-                $this->catatan_spi = $lpj->catatan_spi;
-            }
-        }
-    }
-    
-    public function getPelaksanaan()
-    {
-        $today = Carbon::today()->toDateString();
-        
-        $query = DB::table('pelaksanaans')
-            ->leftJoin('lpjs', 'pelaksanaans.id', '=', 'lpjs.pelaksanaan_id')
-            ->join('proposals', 'pelaksanaans.proposal_id', '=', 'proposals.id')
-            ->select('pelaksanaans.id', 'proposals.nama_kegiatan');
-        
-        if (is_null($this->id)) {
-            // Mode Create - tampilkan pelaksanaan yang belum punya LPJ
-            $query->whereNull('lpjs.pelaksanaan_id')
-                ->where('proposals.dana_disetujui', '>', 0.00)
-                ->whereNotNull('proposals.dana_disetujui')
-                // ✅ Ganti kondisi status dengan logika tanggal
-                ->where('pelaksanaans.tanggal_selesai', '<', $today);
+        $lpj = Lpj::find($id);
+        if ($lpj) {
+            $this->id = $lpj->id;
+            $this->pelaksanaan_id = $lpj->pelaksanaan_id;
+            $this->status_lpj = $lpj->status_lpj;
+            $this->tanggal_disetor = $lpj->tanggal_disetor;
+            $this->catatan_spi = $lpj->catatan_spi;
+            $this->pelaksanaan_name = $lpj->pelaksanaan->proposal->nama_kegiatan;
         } else {
-            // Mode Edit - tampilkan pelaksanaan yang sudah punya LPJ
-            $query->whereNotNull('lpjs.pelaksanaan_id');
+            return $this->redirect('/penyetoran-lpj', navigate:true);
         }
-        
-        return $query->get();
     }
-    
-    public function create()
-    {
-        $this->validate($this->rules(), $this->messages());
-        
-        DB::table('lpjs')->insert([
-            'pelaksanaan_id' => $this->pelaksanaan_id,
-            'status_lpj' => $this->status_lpj,
-            'tanggal_disetor' => $this->tanggal_disetor,
-            'catatan_spi' => $this->catatan_spi,
-            'created_at' => now(), // ✅ Tambahkan timestamps
-            'updated_at' => now(),
-        ]);
-        
-        $this->reset(['pelaksanaan_id', 'status_lpj', 'tanggal_disetor', 'catatan_spi']);
-        $this->dispatch('success', message: "LPJ Berhasil Ditambahkan!");
-    }
-    
+
     public function update()
     {
         $this->validate($this->rules(), $this->messages());
-        
+
         DB::table('lpjs')->where('id', $this->id)
             ->update([
                 'pelaksanaan_id' => $this->pelaksanaan_id,
@@ -75,17 +36,15 @@ class FormLpj extends Component
                 'tanggal_disetor' => $this->tanggal_disetor,
                 'catatan_spi' => $this->catatan_spi,
             ]);
-        
+
         $this->dispatch('success', message: "LPJ Berhasil DiUpdate!");
     }
-    
+
     public function render()
     {
-        return view('livewire.penyetoran-lpj.form-lpj', [
-            'pelaksanaan' => $this->getPelaksanaan()
-        ]);
+        return view('livewire.penyetoran-lpj.form-lpj');
     }
-    
+
     protected function rules()
     {
         return [
@@ -95,7 +54,7 @@ class FormLpj extends Component
             'catatan_spi' => 'nullable|string|max:1000',
         ];
     }
-    
+
     protected function messages()
     {
         return [

@@ -2,25 +2,14 @@
     <div class="flex justify-between items-center mb-8 border-b pb-4">
         <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
             <i class="fa-solid fa-file-circle-plus text-blue-600"></i>
-            {{ $id == null ? 'Tambah Penyetoran LPJ' : 'Edit Penyetoran LPJ' }}
+            Edit Penyetoran LPJ
         </h2>
-        <button @click="openForm = false" class="text-gray-500 hover:text-red-600 transition">
-            <i class="fa-solid fa-xmark text-xl"></i>
-        </button>
     </div>
 
-    <form wire:submit.prevent='{{ $id == null ? 'create' : 'update' }}' class="space-y-6">
+    <form wire:submit.prevent='update' class="space-y-6">
         <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Pelaksanaan</label>
-            <select wire:model='pelaksanaan_id'
-                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition">
-                <option value="">-- Pilih Kegiatan --</option>
-                @foreach ($pelaksanaan as $item)
-                    <option value="{{ $item->id }}" {{ $id ? 'disabled' : '' }}>
-                        {{ $item->nama_kegiatan }}
-                    </option>
-                @endforeach
-            </select>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Nama Pelaksanaan</label>
+            <input type="text" wire:model="pelaksanaan_name" disabled class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none transition-all duration-200 @error('penanggung_jawab') border-red-500 @enderror">
         </div>
 
         <div>
@@ -53,12 +42,12 @@
                 </button>
             </a>
             <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-50 cursor-not-allowed"
-                wire:target="{{ $id == null ? 'create' : 'update' }}"
+                wire:target="update"
                 class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-sm transition">
-                <span wire:loading.remove wire:target="{{ $id == null ? 'create' : 'update' }}">
+                <span wire:loading.remove wire:target="update">
                     Simpan LPJ
                 </span>
-                <span wire:loading wire:target="{{ $id == null ? 'create' : 'update' }}">
+                <span wire:loading wire:target="update">
                     Menyimpan...
                 </span>
             </button>

@@ -29,7 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/pelaksanaan-kegiatan/edit/{id}', FormKegiatan::class);
 
     Route::get('/penyetoran-lpj', PenyetoranLpj::class);
-    Route::get('/penyetoran-lpj/tambah', FormLpj::class);
     Route::get('/penyetoran-lpj/edit/{id}', FormLpj::class);
 
     Route::get('/laporan-rekap', LaporanRekap::class);
