@@ -2,9 +2,8 @@
 <div class="bg-white rounded-lg p-4 shadow overflow-hidden">
     <div class="px-6 py-4 border-gray-200 flex items-center justify-between">
         <h2 class="text-xl font-semibold text-gray-800">Daftar Proposal Diajukan</h2>
-        <a href="/pengajuan-proposal/tambah" 
-           wire:navigate
-           class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition">
+        <a href="/pengajuan-proposal/tambah" wire:navigate
+            class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition">
             + Tambah Proposal
         </a>
     </div>
@@ -41,12 +40,18 @@
             <thead class="bg-gray-50">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lembaga</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Kegiatan</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Diterima</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dana Diajukan</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dana Disetujui</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lembaga
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama
+                        Kegiatan</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal
+                        Diterima</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dana
+                        Diajukan</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dana
+                        Disetujui</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                    </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                 </tr>
             </thead>
@@ -79,13 +84,16 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $status['class'] }}">
+                            <span
+                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $status['class'] }}">
                                 {{ $status['label'] }}
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <a href="/pengajuan-proposal/edit/{{ $proposal->id }}" wire:navigate class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
-                            <button @click="$wire.modal=true; $wire.proposal_id={{ $proposal->id }}" class="text-red-600 hover:text-red-900">Hapus</button>
+                            <a href="/pengajuan-proposal/edit/{{ $proposal->id }}" wire:navigate
+                                class="text-blue-600 hover:text-blue-900 mr-3">Edit</a>
+                            <button @click="$wire.modal=true; $wire.proposal_id={{ $proposal->id }}"
+                                class="text-red-600 hover:text-red-900">Hapus</button>
                         </td>
                     </tr>
                 @empty
@@ -100,7 +108,7 @@
     </div>
 
     <div class="mt-4">
-         {{ $proposals->links('vendor.pagination.simple-tailwind') }}
+        {{ $proposals->links('vendor.pagination.simple-tailwind') }}
     </div>
 
     @include('components.modal-konfirmasi')
